@@ -15,6 +15,25 @@ import "./App.css";
 const locales = {
   "nl-BE": require("date-fns/locale/nl-BE"),
 };
+
+// require("globalize/lib/cultures/globalize.culture.nl-BE");
+// const lang = {
+//   en: null,
+//   "en-GB": null,
+//   nl: {
+//     week: "Week",
+//     work_week: "Werkweek",
+//     day: "Dag",
+//     month: "Maand",
+//     previous: "Vorige",
+//     next: "Volgende",
+//     today: `Vandaag`,
+//     agenda: "Agenda",
+
+//     showMore: (total) => `+${total} plus`,
+//   },
+// };
+
 const localizer = dateFnsLocalizer({
   format,
   parse,
@@ -78,6 +97,7 @@ function App() {
         </button>
       </div>
       <Calendar
+        // culture="nl-BE"
         localizer={localizer}
         events={allEvents}
         startAccessor="start"
