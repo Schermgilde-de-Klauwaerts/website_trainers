@@ -5,8 +5,8 @@ import TRAININGEN_DATA from './api/mock-data';
 function App() {
  return (
   <div className="App">
-    {TRAININGEN_DATA.map((training) => 
-      <Training key={TRAININGEN_DATA.indexOf(training)} {...training}/>)}
+    {TRAININGEN_DATA.map((training, id) => 
+      <Training key={id} {...training}/>)}
   </div>
  );
 }

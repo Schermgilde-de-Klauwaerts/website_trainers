@@ -1,9 +1,15 @@
-export default function Training(props) {
-  // const trainer = "Jasper";
-  // const dag = "vrijdag";
-  // const datum = "25/11/2022";
-  // const startuur = "19u30";
-  // const einduur = "21u30";
-  const {trainer, dag, datum, startuur, einduur} = props;
-  return <div>{trainer} geeft op {dag} {datum} van {startuur} tot {einduur} training</div>;
+const Training = ({trainer, dag, datum, startuur, einduur}) => {
+  return (
+  <div className="card bg-light border-dark mb-4">
+      <div className="card-body">
+        <h5 className="card-title">{trainer}</h5>
+        <h5 className="card-title">{dag}</h5>
+        <h5 className="card-title">{datum}</h5>
+        <h5 className="card-title">{startuur}</h5>
+        <h5 className="card-title">{einduur}</h5>
+      </div>
+    </div>
+  );
 }
+
+export default Training;
