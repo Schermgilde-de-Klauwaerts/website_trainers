@@ -1,25 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import Training from './components/trainingen/Training'; 
+import TRAININGEN_DATA from './api/mock-data';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Laura je ruikt heel lekker vandaag
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+ return (
+  <div className="App">
+    {TRAININGEN_DATA.map((training) => 
+      <Training key={TRAININGEN_DATA.indexOf(training)} {...training}/>)}
+  </div>
+ );
 }
 
 export default App;
