@@ -11,6 +11,9 @@ export default function Navigation() {
         <li>
           <Link to="/overzicht">Overzicht</Link>
         </li>
+        <li>
+          <Link to="/documenten">Documenten</Link>
+        </li>
       </ul>
     </div>
   );

@@ -1,15 +1,12 @@
 import React from "react";
 
 import Navigation from "../components/Navigation";
-import TrainingList from "../components/trainingen/TrainingList";
 
-export default function Kalender() {
+export default function Documenten() {
   return (
     <div className="App">
-      <h1>Kalender</h1>
+      <h1>Documenten</h1>
       <Navigation />
-
-      <TrainingList />
     </div>
   );
 }
