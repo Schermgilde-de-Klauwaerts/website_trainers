@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Dag from "./Dag";
 
 export default function Maand({ maanden, maand, dagen, aantalDagenPerMaand }) {
   const [aantalDagen, setAantalDagen] = useState(
@@ -10,7 +11,7 @@ export default function Maand({ maanden, maand, dagen, aantalDagenPerMaand }) {
   }, [aantalDagenPerMaand, maand, maanden]);
 
   return (
-    <div className="mx-16">
+    <div className="mx-16 mb-16">
       <div className="grid grid-cols-7">
         {dagen.map((dag) => (
           <div
@@ -22,13 +23,8 @@ export default function Maand({ maanden, maand, dagen, aantalDagenPerMaand }) {
         ))}
       </div>
       <div className="grid grid-cols-7">
-        {[...Array(aantalDagen)].map((dag) => (
-          <div
-            className="text-center font-bold border-2 border-black h-36"
-            key={dag}
-          >
-            {dag}
-          </div>
+        {[...Array(aantalDagen)].map((dag, index = 0) => (
+          <Dag dag={index + 1} key={index + 1} />
         ))}
       </div>
     </div>
