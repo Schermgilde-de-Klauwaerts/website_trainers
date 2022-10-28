@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function Navigation() {
   return (
-    <div>
-      <ul>
+    <div className="ml-16">
+      <ul class="list-disc">
         <li>
           <Link to="/kalender">Kalender</Link>
         </li>
