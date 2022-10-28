@@ -5,6 +5,7 @@ import Maand from "../components/kalender/Maand";
 
 import MAANDEN from "../api/mock_maanden";
 import DAGEN from "../api/mock_dagen";
+import AANTALDAGENPERMAAND from "../api/mock_aantal_dagen_per_maand";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
@@ -40,7 +41,12 @@ export default function Kalender() {
         </button>
       </div>
 
-      <Maand maand={MAANDEN[0]} dagen={DAGEN} />
+      <Maand
+        maanden={MAANDEN}
+        maand={MAANDEN[maand]}
+        dagen={DAGEN}
+        aantalDagenPerMaand={AANTALDAGENPERMAAND}
+      />
     </div>
   );
 }
