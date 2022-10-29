@@ -30,7 +30,7 @@ const EVENTS_DATA = [
     id: 4,
     soort: "training",
     trainer: "Jasper",
-    datum: "vrijdag 28/10/2022",
+    datum: "vrijdag 21/10/2022",
     startuur: "19:30",
     einduur: "21:30",
     notities: "",
