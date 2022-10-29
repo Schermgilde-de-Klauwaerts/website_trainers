@@ -12,6 +12,7 @@ import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
+  const [events, setEvents] = useState(EVENTS_DATA);
 
   // const date = new Date(Date.UTC(2012, 11, 20));
 
@@ -36,6 +37,32 @@ export default function Kalender() {
     }
   };
 
+  const addEvent = (dag) => {
+    let date = new Date(Date.UTC(2022, maand, dag));
+
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    };
+
+    date = date.toLocaleDateString("nl-BE", options);
+
+    setEvents([
+      ...events,
+      {
+        id: 5,
+        soort: "Training",
+        trainer: "Saartje Corteyn",
+        datum: date,
+        startuur: "18:00",
+        einduur: "21:30",
+        notities: "",
+      },
+    ]);
+  };
+
   return (
     <div>
       <h1 className="text-3xl font-bold my-2 ml-10">Kalender</h1>
@@ -57,7 +84,8 @@ export default function Kalender() {
         maand={maand}
         dagen={DAGEN}
         aantalDagenPerMaand={AANTALDAGENPERMAAND}
-        events={EVENTS_DATA}
+        events={events}
+        addEvent={addEvent}
       />
     </div>
   );

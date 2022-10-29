@@ -6,9 +6,12 @@ function PreviousMonthDay(dag) {
   );
 }
 
-function CurrentMonthDay({ dag, events = [] }) {
+function CurrentMonthDay({ dag, events = [], addEvent }) {
   return (
-    <div className="text-center border-2 border-black h-36">
+    <div
+      className="text-center border-2 border-black h-36"
+      onClick={() => addEvent(dag)}
+    >
       <div>{dag}</div>
       {events.map((e) => (
         <div key={e.trainer} className="flex flew-row border-2 border-blue-700">
@@ -23,14 +26,14 @@ function CurrentMonthDay({ dag, events = [] }) {
 }
 
 export default function Dag(props) {
-  const { dag, previousMonth, eventsForDay } = props;
+  const { dag, previousMonth, eventsForDay, addEvent } = props;
 
   return (
     <div key={dag}>
       {previousMonth ? (
         <PreviousMonthDay dag={dag} />
       ) : (
-        <CurrentMonthDay dag={dag} events={eventsForDay} />
+        <CurrentMonthDay dag={dag} events={eventsForDay} addEvent={addEvent} />
       )}
     </div>
   );
