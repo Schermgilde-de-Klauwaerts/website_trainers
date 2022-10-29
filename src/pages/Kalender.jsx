@@ -6,11 +6,23 @@ import Maand from "../components/kalender/Maand";
 import MAANDEN from "../api/mock_maanden";
 import DAGEN from "../api/mock_dagen";
 import AANTALDAGENPERMAAND from "../api/mock_aantal_dagen_per_maand";
+import EVENTS_DATA from "../api/mock-data_events";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 export default function Kalender() {
-  const [maand, setMaand] = useState(0);
+  const [maand, setMaand] = useState(new Date().getMonth());
+
+  // const date = new Date(Date.UTC(2012, 11, 20));
+
+  // const options = {
+  //   weekday: "long",
+  //   year: "numeric",
+  //   month: "numeric",
+  //   day: "numeric",
+  // };
+
+  // console.log(date.toLocaleDateString("nl-BE", options));
 
   const verlaagMaand = () => {
     if (maand > 0) {
@@ -42,10 +54,10 @@ export default function Kalender() {
       </div>
 
       <Maand
-        maanden={MAANDEN}
-        maand={MAANDEN[maand]}
+        maand={maand}
         dagen={DAGEN}
         aantalDagenPerMaand={AANTALDAGENPERMAAND}
+        events={EVENTS_DATA}
       />
     </div>
   );

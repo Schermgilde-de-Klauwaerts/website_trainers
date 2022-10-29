@@ -1,4 +1,4 @@
-import EVENTS_DATA from "../../api/mock-data";
+import EVENTS_DATA from "../../api/mock-data_events";
 import Training from "./Training";
 
 const TrainingList = () => {

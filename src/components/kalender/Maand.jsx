@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import Dag from "./Dag";
 
-export default function Maand({ maanden, maand, dagen, aantalDagenPerMaand }) {
-  const [aantalDagen, setAantalDagen] = useState(
-    aantalDagenPerMaand[maanden.indexOf(maand)]
-  );
+export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
+  
+  const [aantalDagen, setAantalDagen] = useState(aantalDagenPerMaand[maand]);
+
+  const [jaar, setJaar] = useState(new Date().getFullYear());
 
   useEffect(() => {
-    setAantalDagen(aantalDagenPerMaand[maanden.indexOf(maand)]);
-  }, [aantalDagenPerMaand, maand, maanden]);
+    setAantalDagen(aantalDagenPerMaand[maand]);
+  }, [aantalDagenPerMaand, maand]);
 
   return (
     <div className="mx-16 mb-16">
