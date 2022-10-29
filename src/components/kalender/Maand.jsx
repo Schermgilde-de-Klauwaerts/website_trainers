@@ -19,17 +19,20 @@ export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
     setEventsForMonth(
       events.filter(
         (event) =>
-          event.datum.split(" ")[1].split("/")[1].toString() ===
-          (maand + 1).toString()
+          event.datum.split(" ")[1].split("/")[1] === (maand + 1).toString()
       )
     );
   }, [aantalDagenPerMaand, maand, events]);
 
-  console.log(eventsForMonth);
-
   const calculateFirstDay = () => {
     const date = new Date(jaar, maand, 1);
     return date.getDay() === 0 ? 0 : date.getDay() - 1;
+  };
+
+  const eventsForDay = (day) => {
+    return eventsForMonth.filter(
+      (event) => event.datum.split(" ")[1].split("/")[0] === day.toString()
+    );
   };
 
   return (
@@ -49,7 +52,11 @@ export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
           <Dag dag={index} key={index + 1} previousMonth />
         ))}
         {[...Array(aantalDagen)].map((dag, index) => (
-          <Dag dag={index + 1} key={index + 1} />
+          <Dag
+            dag={index + 1}
+            key={index + 1}
+            eventsForDay={eventsForDay(index + 1)}
+          />
         ))}
       </div>
     </div>
