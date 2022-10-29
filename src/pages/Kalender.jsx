@@ -48,11 +48,7 @@ export default function Kalender() {
         <h1 className="text-3xl text-center font-bold w-48">
           {MAANDEN[maand]}
         </h1>
-        <button
-          className="text-3xl mx-4"
-          onClick={verhoogMaand}
-          display={maand === 12 ? "none" : "none"}
-        >
+        <button className="text-3xl mx-4" onClick={verhoogMaand}>
           <AiFillCaretRight />
         </button>
       </div>

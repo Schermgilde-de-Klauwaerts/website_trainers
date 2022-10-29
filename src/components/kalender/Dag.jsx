@@ -1,25 +1,30 @@
 import React from "react";
 
-function PreviousMonthDay() {
-  return (
-    <div className="text-center border-2 border-black h-36 bg-slate-300">
-      vorige maand
-    </div>
-  );
+function PreviousMonthDay(dag) {
+  return <div>vorige maand</div>;
 }
 
-function CurrentMonthDay(dag) {
+function CurrentMonthDay({ dag, events = [] }) {
   return (
-    <div className="text-center border-2 border-black h-36">{dag.dag}</div>
+    <>
+      <div>{dag}</div>
+      {events.map((event) => (
+        <div>{event.trainer}</div>
+      ))}
+    </>
   );
 }
 
 export default function Dag(props) {
-  const { dag, previousMonth } = props;
+  const { dag, previousMonth, eventsForDay } = props;
 
   return (
-    <div>
-      {previousMonth ? <PreviousMonthDay /> : <CurrentMonthDay dag={dag} />}
+    <div className="text-center border-2 border-black h-36">
+      {previousMonth ? (
+        <PreviousMonthDay dag={dag} />
+      ) : (
+        <CurrentMonthDay dag={dag} events={eventsForDay} />
+      )}
     </div>
   );
 }
