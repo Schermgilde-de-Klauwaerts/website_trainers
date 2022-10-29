@@ -30,12 +30,10 @@ export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
         ))}
       </div>
       <div className="grid grid-cols-7">
-        {[...Array(calculateFirstDay())].map(
-          (dag, index = calculateFirstDay() * -1) => (
-            <Dag dag={index + 1} key={index + 1} previousMonth />
-          )
-        )}
-        {[...Array(aantalDagen)].map((dag, index = 0) => (
+        {[...Array(calculateFirstDay())].map((dag, index) => (
+          <Dag dag={index} key={index + 1} previousMonth />
+        ))}
+        {[...Array(aantalDagen)].map((dag, index) => (
           <Dag dag={index + 1} key={index + 1} />
         ))}
       </div>
