@@ -1,8 +1,8 @@
 const EVENTS_DATA = [
   {
     id: 1,
-    soort: "training",
-    trainer: "Jasper",
+    soort: "Training",
+    trainer: "Jasper Van Dyck",
     datum: "vrijdag 28/10/2022",
     startuur: "19:30",
     einduur: "21:30",
@@ -10,8 +10,8 @@ const EVENTS_DATA = [
   },
   {
     id: 2,
-    soort: "training",
-    trainer: "Paul",
+    soort: "Training",
+    trainer: "Paul Corteyn",
     datum: "woensdag 26/10/2022",
     startuur: "18:00",
     einduur: "21:30",
@@ -19,8 +19,8 @@ const EVENTS_DATA = [
   },
   {
     id: 3,
-    soort: "training",
-    trainer: "Jolien",
+    soort: "Training",
+    trainer: "Jolien Corteyn",
     datum: "vrijdag 16/9/2022",
     startuur: "19:30",
     einduur: "21:30",
@@ -28,8 +28,8 @@ const EVENTS_DATA = [
   },
   {
     id: 4,
-    soort: "training",
-    trainer: "Jasper",
+    soort: "Training",
+    trainer: "Jasper Van Dyck",
     datum: "vrijdag 21/10/2022",
     startuur: "19:30",
     einduur: "21:30",
