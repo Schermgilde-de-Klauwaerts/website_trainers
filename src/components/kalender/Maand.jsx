@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Dag from "./Dag";
 
 export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
-  
   const [aantalDagen, setAantalDagen] = useState(aantalDagenPerMaand[maand]);
 
   const [jaar, setJaar] = useState(new Date().getFullYear());
@@ -10,6 +9,13 @@ export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
   useEffect(() => {
     setAantalDagen(aantalDagenPerMaand[maand]);
   }, [aantalDagenPerMaand, maand]);
+
+  const calculateFirstDay = () => {
+    const date = new Date(jaar, maand, 1);
+    return date.getDay() === 0 ? 0 : date.getDay() - 1;
+  };
+
+  console.log(calculateFirstDay());
 
   return (
     <div className="mx-16 mb-16">
@@ -24,6 +30,11 @@ export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
         ))}
       </div>
       <div className="grid grid-cols-7">
+        {[...Array(calculateFirstDay())].map(
+          (dag, index = calculateFirstDay() * -1) => (
+            <Dag dag={index + 1} key={index + 1} previousMonth />
+          )
+        )}
         {[...Array(aantalDagen)].map((dag, index = 0) => (
           <Dag dag={index + 1} key={index + 1} />
         ))}
