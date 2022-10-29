@@ -6,6 +6,7 @@ const EVENTS_DATA = [
     datum: "vrijdag 28/10/2022",
     startuur: "19:30",
     einduur: "21:30",
+    notities: "",
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ const EVENTS_DATA = [
     datum: "woensdag 26/10/2022",
     startuur: "18:00",
     einduur: "21:30",
+    notities: "kan pas vanaf 18:30",
   },
   {
     id: 3,
@@ -22,6 +24,16 @@ const EVENTS_DATA = [
     datum: "vrijdag 16/9/2022",
     startuur: "19:30",
     einduur: "21:30",
+    notities: "",
+  },
+  {
+    id: 4,
+    soort: "training",
+    trainer: "Jasper",
+    datum: "vrijdag 28/10/2022",
+    startuur: "19:30",
+    einduur: "21:30",
+    notities: "",
   },
 ];
 

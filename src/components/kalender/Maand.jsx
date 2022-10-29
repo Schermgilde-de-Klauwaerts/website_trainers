@@ -16,6 +16,7 @@ export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
 
   useEffect(() => {
     setAantalDagen(aantalDagenPerMaand[maand]);
+    setJaar(new Date().getFullYear());
     setEventsForMonth(
       events.filter(
         (event) =>
