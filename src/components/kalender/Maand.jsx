@@ -6,16 +6,31 @@ export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
 
   const [jaar, setJaar] = useState(new Date().getFullYear());
 
+  const [eventsForMonth, setEventsForMonth] = useState(
+    events.filter(
+      (event) =>
+        event.datum.split(" ")[1].split("/")[1].toString() ===
+        (maand + 1).toString()
+    )
+  );
+
   useEffect(() => {
     setAantalDagen(aantalDagenPerMaand[maand]);
-  }, [aantalDagenPerMaand, maand]);
+    setEventsForMonth(
+      events.filter(
+        (event) =>
+          event.datum.split(" ")[1].split("/")[1].toString() ===
+          (maand + 1).toString()
+      )
+    );
+  }, [aantalDagenPerMaand, maand, events]);
+
+  console.log(eventsForMonth);
 
   const calculateFirstDay = () => {
     const date = new Date(jaar, maand, 1);
     return date.getDay() === 0 ? 0 : date.getDay() - 1;
   };
-
-  console.log(calculateFirstDay());
 
   return (
     <div className="mx-16 mb-16">
