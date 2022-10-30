@@ -9,21 +9,12 @@ import AANTALDAGENPERMAAND from "../api/mock_aantal_dagen_per_maand";
 import EVENTS_DATA from "../api/mock-data_events";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
+import Modal from "../components/Modal";
 
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
   const [events, setEvents] = useState(EVENTS_DATA);
-
-  // const date = new Date(Date.UTC(2012, 11, 20));
-
-  // const options = {
-  //   weekday: "long",
-  //   year: "numeric",
-  //   month: "numeric",
-  //   day: "numeric",
-  // };
-
-  // console.log(date.toLocaleDateString("nl-BE", options));
+  const [isOpen, setIsOpen] = useState(false);
 
   const verlaagMaand = () => {
     if (maand > 0) {
@@ -78,6 +69,18 @@ export default function Kalender() {
         <button className="text-3xl mx-4" onClick={verhoogMaand}>
           <AiFillCaretRight />
         </button>
+      </div>
+
+      <div className="text-center">
+        <button
+          className="border-2 border-black"
+          onClick={() => setIsOpen(true)}
+        >
+          Add Event
+        </button>
+        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
+          Fancy Modal
+        </Modal>
       </div>
 
       <Maand
