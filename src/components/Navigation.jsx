@@ -14,6 +14,9 @@ export default function Navigation() {
         <li>
           <Link to="/documenten">Documenten</Link>
         </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
       </ul>
     </div>
   );
