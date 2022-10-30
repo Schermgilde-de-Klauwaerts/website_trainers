@@ -7,6 +7,7 @@ import MAANDEN from "../api/mock_maanden";
 import DAGEN from "../api/mock_dagen";
 import AANTALDAGENPERMAAND from "../api/mock_aantal_dagen_per_maand";
 import EVENTS_DATA from "../api/mock-data_events";
+import TRAINERS from "../api/mock_trainers";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 import Modal from "../components/Modal";
@@ -71,16 +72,18 @@ export default function Kalender() {
         </button>
       </div>
 
-      <div className="text-center">
+      <div className="text-center mb-4">
         <button
           className="border-2 border-black"
           onClick={() => setIsOpen(true)}
         >
           Add Event
         </button>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-          Fancy Modal
-        </Modal>
+        <Modal
+          open={isOpen}
+          onClose={() => setIsOpen(false)}
+          trainers={TRAINERS}
+        ></Modal>
       </div>
 
       <Maand

@@ -35,6 +35,15 @@ const EVENTS_DATA = [
     einduur: "21:30",
     notities: "",
   },
+  {
+    id: 5,
+    soort: "Wedstrijd",
+    trainer: "Jasper Van Dyck",
+    datum: "zaterdag 5/11/2022",
+    startuur: "",
+    einduur: "",
+    notities: "begeleider",
+  },
 ];
 
 export default EVENTS_DATA;

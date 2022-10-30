@@ -25,7 +25,7 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function Modal({ open, children, onClose }) {
+export default function Modal({ open, children, onClose, trainers }) {
   const methods = useForm();
   const {
     register,
@@ -59,85 +59,107 @@ export default function Modal({ open, children, onClose }) {
     <>
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
-        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-6">
           {message && (
-            <span
-              data-cy="message_addItem"
-              className="col-span-4 text-gray-600 mb-2"
-            >
-              {message}
-            </span>
+            <span className="col-span-6 text-gray-600 mb-2">{message}</span>
           )}
           <label
-            htmlFor="name"
-            className="col-span-4 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
+            htmlFor="typeEvent"
+            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-24 py-1 px-2"
           >
-            NAME
+            Type Event
+          </label>
+          <select
+            name="typeEvent"
+            id="typeEvent"
+            className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+          >
+            <option value=""> -- Selecteer een type -- </option>
+            <option value="Training">Training</option>
+            <option value="Wedstrijd">Wedstrijd</option>
+          </select>
+          <label
+            htmlFor="trainer"
+            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
+          >
+            Trainer
+          </label>
+          <select
+            name="trainer"
+            id="trainer"
+            className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+          >
+            <option value=""> -- Selecteer een trainer -- </option>
+            {trainers.map((trainer) => (
+              <option key={trainer} value={trainer}>
+                {trainer}
+              </option>
+            ))}
+          </select>
+          <label
+            htmlFor="date"
+            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
+          >
+            DATUM
           </label>
           <input
-            type="text"
-            id="name"
-            placeholder="Geef een naam"
-            // disabled={imageUploaden}
-            {...register("name", { required: "Naam is verplicht" })}
-            className="col-span-4 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
-            data-cy="input_name_addItem"
-          />
+            type="datetime-local"
+            id="date"
+            name="date"
+            value="2018-06-12T19:30"
+            {...register("date", { required: "Datum is verplicht" })}
+            className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+          ></input>
           <ErrorMessage
             errors={errors}
-            name="name"
+            name="date"
             render={({ message }) => (
-              <p className="col-span-4 text-red-500 mb-2">{message}</p>
+              <p className="col-span-6 text-red-500 mb-2">{message}</p>
             )}
           />
           <label
-            htmlFor="price"
-            className="col-span-4 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
+            htmlFor="notities"
+            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
           >
-            PRICE
+            NOTITIES
           </label>
           <input
-            type="number"
-            id="price"
-            placeholder="Geef een prijs"
-            step="0.01"
-            min="0.01"
+            type="text"
+            id="notities"
+            placeholder="Extra info, naam van de wedstrijd,..."
             // disabled={imageUploaden}
-            {...register("price", {
-              required: "Prijs is verplicht",
-              min: 0.01,
-            })}
-            className="col-span-4 border-2 border-gray-600 mb-2 h-12 pl-2"
-            data-cy="input_price_addItem"
+            {...register("notities")}
+            className="col-span-6 border-2 border-gray-600 mb-2 h-12 pl-2"
           />
           <ErrorMessage
             errors={errors}
-            name="price"
+            name="notities"
             render={({ message }) => (
-              <p className="col-span-4 text-red-500 mb-2">{message}</p>
+              <p className="col-span-6 text-red-500 mb-2">{message}</p>
             )}
           />
           <button
             type="submit"
             // disabled={imageUploaden}
-            className="disabled:opacity-50 col-span-3 border-2 border-green-500 bg-green-500 text-white py-1 px-3 mb-4 h-12"
-            data-cy="submit_addItem"
+            className="disabled:opacity-50 col-span-2 border-2 border-green-500 bg-green-500 text-white py-1 px-3 mb-4 h-12"
           >
             ADD
           </button>
           <button
             type="reset"
             // disabled={imageUploaden}
-            className="disabled:opacity-50 col-span-1 border-2 border-red-500 bg-red-500 text-white py-1 px-3 mb-4 ml-2 h-12"
+            className="disabled:opacity-50 col-span-2 border-2 border-orange-500 bg-orange-500 text-white py-1 px-3 mb-4 ml-2 h-12"
             onClick={() => reset()}
-            data-cy="reset_addItem"
           >
             RESET
           </button>
+          <button
+            onClick={onClose}
+            className="disabled:opacity-50 col-span-2 border-2 border-red-500 bg-red-500 text-white py-1 px-3 mb-4 ml-2 h-12"
+          >
+            ANNULEER
+          </button>
         </form>
-        <button onClick={onClose} className="border-2 border-black">
-          Close Modal
-        </button>
       </div>
     </>,
     document.getElementById("portal")
