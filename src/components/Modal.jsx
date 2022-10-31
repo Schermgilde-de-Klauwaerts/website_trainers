@@ -57,8 +57,9 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
   const onSubmit = useCallback(
     async (data) => {
       addEvent(data);
+      onClose();
     },
-    [addEvent]
+    [addEvent, onClose]
   );
 
   if (!open) return null;
@@ -88,6 +89,13 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
             <option value="Training">Training</option>
             <option value="Wedstrijd">Wedstrijd</option>
           </select>
+          <ErrorMessage
+            errors={errors}
+            name="type"
+            render={({ message }) => (
+              <p className="col-span-6 text-red-500 mb-2">{message}</p>
+            )}
+          />
           <label
             htmlFor="trainer"
             className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
