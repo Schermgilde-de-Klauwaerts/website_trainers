@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useCallback } from "react";
-import { useEffect } from "react";
 
 import Navigation from "../components/Navigation";
 import Maand from "../components/kalender/Maand";
-import Modal from "../components/Modal";
+import Modal from "../components/modals/Modal";
+import EditModal from "../components/modals/EditModal";
 
 import MAANDEN from "../api/mock_maanden";
 import DAGEN from "../api/mock_dagen";
@@ -17,7 +17,9 @@ import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
   const [events, setEvents] = useState(EVENTS_DATA);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  const [eventToEdit, setEventToEdit] = useState(null);
 
   const verlaagMaand = () => {
     if (maand > 0) {
@@ -68,6 +70,29 @@ export default function Kalender() {
     [events]
   );
 
+  const editEvent = useCallback((data) => {
+    setEventToEdit(data);
+    setIsOpenEditModal(true);
+  }, []);
+
+  const updateEvent = useCallback(
+    (data) => {
+      const { id, trainer, type, datum, startuur, einduur, notities } = data;
+      const event = events.find((event) => event.id === id);
+      const index = events.indexOf(event);
+      events.splice(index, 1, {
+        id: id,
+        soort: type,
+        trainer: trainer,
+        datum: datum,
+        startuur: startuur,
+        einduur: einduur,
+        notities: notities,
+      });
+    },
+    [events]
+  );
+
   return (
     <div>
       <h1 className="text-3xl font-bold my-2 ml-10">Kalender</h1>
@@ -88,23 +113,32 @@ export default function Kalender() {
       <div className="text-center mb-4">
         <button
           className="border-2 border-black px-2 py-1"
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsOpenModal(true)}
         >
           Voeg een training, wedstrijd,... toe
         </button>
         <Modal
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
+          open={isOpenModal}
+          onClose={() => setIsOpenModal(false)}
           trainers={TRAINERS}
           addEvent={addEvent}
         ></Modal>
       </div>
+
+      {/* <EditModal
+        open={isOpenEditModal}
+        onClose={() => setIsOpenEditModal(false)}
+        trainers={TRAINERS}
+        updateEvent={updateEvent}
+        event={eventToEdit}
+      ></EditModal> */}
 
       <Maand
         maand={maand}
         dagen={DAGEN}
         aantalDagenPerMaand={AANTALDAGENPERMAAND}
         events={events}
+        editEvent={editEvent}
       />
     </div>
   );
