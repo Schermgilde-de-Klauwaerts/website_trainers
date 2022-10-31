@@ -1,6 +1,6 @@
 const EVENTS_DATA = [
   {
-    id: 1,
+    id: "7f28c5f9-d711-4cd6-ac15-d13d71abff83",
     soort: "Training",
     trainer: "Jasper Van Dyck",
     datum: "vrijdag 28/10/2022",
