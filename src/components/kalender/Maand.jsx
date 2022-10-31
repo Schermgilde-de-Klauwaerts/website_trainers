@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import Dag from "./Dag";
 
-export default function Maand({
-  maand,
-  dagen,
-  aantalDagenPerMaand,
-  events,
-  addEvent,
-}) {
+export default function Maand({ maand, dagen, aantalDagenPerMaand, events }) {
   const [aantalDagen, setAantalDagen] = useState(aantalDagenPerMaand[maand]);
   const [jaar, setJaar] = useState(new Date().getFullYear());
   const [eventsForMonth, setEventsForMonth] = useState(
@@ -61,7 +55,6 @@ export default function Maand({
             dag={index + 1}
             key={index + 1}
             eventsForDay={eventsForDay(index + 1)}
-            addEvent={addEvent}
           />
         ))}
       </div>

@@ -92,7 +92,6 @@ export default function Kalender() {
         dagen={DAGEN}
         aantalDagenPerMaand={AANTALDAGENPERMAAND}
         events={events}
-        addEvent={addEvent}
       />
     </div>
   );

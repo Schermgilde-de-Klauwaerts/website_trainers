@@ -6,12 +6,9 @@ function PreviousMonthDay(dag) {
   );
 }
 
-function CurrentMonthDay({ dag, events = [], addEvent }) {
+function CurrentMonthDay({ dag, events = [] }) {
   return (
-    <div
-      className="text-center border-2 border-black h-36"
-      onClick={() => addEvent(dag)}
-    >
+    <div className="text-center border-2 border-black h-36">
       <div>{dag}</div>
       {events.map((e) => (
         <div key={e.trainer} className="flex flew-row border-2 border-blue-700">
