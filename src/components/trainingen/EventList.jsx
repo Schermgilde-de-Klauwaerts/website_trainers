@@ -15,7 +15,8 @@ const EventList = ({ events, trainers, maand }) => {
     events.forEach((event) => {
       if (
         event.datum.split(" ")[1].split("/")[1] === maand.toString() &&
-        !gewerkt.includes(event.trainer)
+        !gewerkt.includes(event.trainer) &&
+        event.trainer !== ""
       ) {
         gewerkt.push(event.trainer);
       }
