@@ -83,6 +83,7 @@ export default function Kalender() {
           open={isOpen}
           onClose={() => setIsOpen(false)}
           trainers={TRAINERS}
+          addEvent={addEvent}
         ></Modal>
       </div>
 

@@ -25,7 +25,7 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function Modal({ open, children, onClose, trainers }) {
+export default function Modal({ open, onClose, trainers, addEvent }) {
   const methods = useForm();
   const {
     register,
@@ -36,21 +36,30 @@ export default function Modal({ open, children, onClose, trainers }) {
   // const { createItem, loading } = useItems();
 
   const [message, setMessage] = useState();
+  const [type, setType] = useState("Training");
   // const [imageUploaden, setImageUploaden] = useState(loading);
+
+  // const onSubmit = useCallback(
+  //   async (data) => {
+  //     try {
+  //       const { name, price } = data;
+  //       // await createItem({ name, price, korting: 0, imageUrl });
+  //       setMessage("Item succesvol aangemaakt");
+  //     } catch (error) {
+  //       setMessage("Er ging iets fout, probeer opnieuw");
+  //     } finally {
+  //       // setImageUploaden(false);
+  //     }
+  //   }
+  //   [createItem]
+  // );
 
   const onSubmit = useCallback(
     async (data) => {
-      try {
-        const { name, price } = data;
-        // await createItem({ name, price, korting: 0, imageUrl });
-        setMessage("Item succesvol aangemaakt");
-      } catch (error) {
-        setMessage("Er ging iets fout, probeer opnieuw");
-      } finally {
-        // setImageUploaden(false);
-      }
-    }
-    // [createItem]
+      console.log(data);
+      addEvent();
+    },
+    [addEvent]
   );
 
   if (!open) return null;
@@ -65,14 +74,15 @@ export default function Modal({ open, children, onClose, trainers }) {
           )}
           <label
             htmlFor="typeEvent"
-            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-24 py-1 px-2"
+            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
           >
-            Type Event
+            TYPE
           </label>
           <select
             name="typeEvent"
             id="typeEvent"
             className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+            onChange={(e) => setType(e.target.value)}
           >
             <option value=""> -- Selecteer een type -- </option>
             <option value="Training">Training</option>
@@ -82,7 +92,7 @@ export default function Modal({ open, children, onClose, trainers }) {
             htmlFor="trainer"
             className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
           >
-            Trainer
+            TRAINER
           </label>
           <select
             name="trainer"
@@ -97,24 +107,67 @@ export default function Modal({ open, children, onClose, trainers }) {
             ))}
           </select>
           <label
-            htmlFor="date"
+            htmlFor="datum"
             className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
           >
             DATUM
           </label>
           <input
-            type="datetime-local"
-            id="date"
-            name="date"
-            value="2018-06-12T19:30"
-            {...register("date", { required: "Datum is verplicht" })}
+            type="date"
+            id="datum"
+            name="datum"
+            {...register("datum", { required: "Datum is verplicht" })}
             className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
           ></input>
           <ErrorMessage
             errors={errors}
-            name="date"
+            name="datum"
             render={({ message }) => (
               <p className="col-span-6 text-red-500 mb-2">{message}</p>
+            )}
+          />
+          <label
+            htmlFor="startuur"
+            className="col-span-3 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
+            hidden={type === "Wedstrijd" ? "hidden" : ""}
+          >
+            STARTUUR
+          </label>
+          <label
+            htmlFor="einduur"
+            className="col-span-3 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
+            hidden={type === "Wedstrijd" ? "hidden" : ""}
+          >
+            EINDUUR
+          </label>
+          <input
+            type="time"
+            id="startuur"
+            name="startuur"
+            {...register("startuur", { required: "Startuur is verplicht" })}
+            className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2 mr-2"
+            hidden={type === "Wedstrijd" ? "hidden" : ""}
+          ></input>
+          <ErrorMessage
+            errors={errors}
+            name="startuur"
+            render={({ message }) => (
+              <p className="col-span-3 text-red-500 mb-2">{message}</p>
+            )}
+          />
+          <input
+            type="time"
+            id="einduur"
+            name="einduur"
+            {...register("einduur", { required: "Einduur is verplicht" })}
+            className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+            hidden={type === "Wedstrijd" ? "hidden" : ""}
+          ></input>
+          <ErrorMessage
+            errors={errors}
+            name="einduur"
+            render={({ message }) => (
+              <p className="col-span-3 text-red-500 mb-2">{message}</p>
             )}
           />
           <label
@@ -126,7 +179,7 @@ export default function Modal({ open, children, onClose, trainers }) {
           <input
             type="text"
             id="notities"
-            placeholder="Extra info, naam van de wedstrijd,..."
+            placeholder="Bijv: naam van de wedstrijd, extra info,..."
             // disabled={imageUploaden}
             {...register("notities")}
             className="col-span-6 border-2 border-gray-600 mb-2 h-12 pl-2"
@@ -143,7 +196,7 @@ export default function Modal({ open, children, onClose, trainers }) {
             // disabled={imageUploaden}
             className="disabled:opacity-50 col-span-2 border-2 border-green-500 bg-green-500 text-white py-1 px-3 mb-4 h-12"
           >
-            ADD
+            TOEVOEGEN
           </button>
           <button
             type="reset"
