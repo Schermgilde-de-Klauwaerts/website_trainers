@@ -57,7 +57,7 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
   const onSubmit = useCallback(
     async (data) => {
       console.log(data);
-      addEvent();
+      addEvent(data);
     },
     [addEvent]
   );
@@ -73,15 +73,16 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
             <span className="col-span-6 text-gray-600 mb-2">{message}</span>
           )}
           <label
-            htmlFor="typeEvent"
+            htmlFor="type"
             className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
           >
             TYPE
           </label>
           <select
-            name="typeEvent"
-            id="typeEvent"
+            name="type"
+            id="type"
             className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+            {...register("type", { required: "Type is verplicht" })}
             onChange={(e) => setType(e.target.value)}
           >
             <option value=""> -- Selecteer een type -- </option>
@@ -97,6 +98,7 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
           <select
             name="trainer"
             id="trainer"
+            {...register("trainer", { required: "Trainer is verplicht" })}
             className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
           >
             <option value=""> -- Selecteer een trainer -- </option>

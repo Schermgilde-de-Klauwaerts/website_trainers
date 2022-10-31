@@ -38,11 +38,11 @@ const EVENTS_DATA = [
   {
     id: 5,
     soort: "Wedstrijd",
-    trainer: "Jasper Van Dyck",
+    trainer: "Ynte Audenaert",
     datum: "zaterdag 5/11/2022",
     startuur: "",
     einduur: "",
-    notities: "begeleider",
+    notities: "VSB Beker Sint-Niklaas",
   },
 ];
 

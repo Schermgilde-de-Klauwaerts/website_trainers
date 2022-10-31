@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useCallback } from "react";
+import { useEffect } from "react";
 
 import Navigation from "../components/Navigation";
 import Maand from "../components/kalender/Maand";
+import Modal from "../components/Modal";
 
 import MAANDEN from "../api/mock_maanden";
 import DAGEN from "../api/mock_dagen";
@@ -10,7 +13,6 @@ import EVENTS_DATA from "../api/mock-data_events";
 import TRAINERS from "../api/mock_trainers";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
-import Modal from "../components/Modal";
 
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
@@ -29,31 +31,47 @@ export default function Kalender() {
     }
   };
 
-  const addEvent = (dag) => {
-    let date = new Date(Date.UTC(2022, maand, dag));
+  const addEvent = useCallback(
+    (data) => {
+      const { trainer, type, datum, startuur, einduur, notities } = data;
 
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    };
+      const dag = datum.split("-")[2];
+      const maand = datum.split("-")[1];
+      const jaar = datum.split("-")[0];
 
-    date = date.toLocaleDateString("nl-BE", options);
+      let date = new Date(Date.UTC(jaar, maand - 1, dag));
 
-    setEvents([
-      ...events,
-      {
-        id: 5,
-        soort: "Training",
-        trainer: "Saartje Corteyn",
-        datum: date,
-        startuur: "18:00",
-        einduur: "21:30",
-        notities: "",
-      },
-    ]);
-  };
+      const options = {
+        weekday: "long",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      };
+
+      date = date.toLocaleDateString("nl-BE", options);
+
+      console.log(date);
+
+      setEvents([
+        ...events,
+        {
+          id: 5,
+          soort: type,
+          trainer: trainer,
+          datum: date,
+          startuur: startuur,
+          einduur: einduur,
+          notities: notities,
+        },
+      ]);
+      console.log(events);
+    },
+    [events]
+  );
+
+  useEffect(() => {
+    console.log(events);
+  }, [events]);
 
   return (
     <div>
