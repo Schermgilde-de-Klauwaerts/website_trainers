@@ -34,12 +34,12 @@ export default function Login() {
   // );
 
   return (
-    <div className="mx-auto bg-green-300 h-screen w-screen">
+    <div className="mx-auto bg-white h-screen w-screen">
       <h1 className="text-center font-bold text-gray-600 text-4xl pt-6 mb-4">
         Login
       </h1>
       <form
-        className="w-11/12 md:w-8/12 lg:w-1/4 mx-auto grid grid-cols-1 border-t-2 border-green-700 pt-8"
+        className="w-11/12 md:w-8/12 lg:w-1/4 mx-auto grid grid-cols-1 border-t-2 border-gray-600 pt-8"
         // onSubmit={handleSubmit(onSubmit)}
       >
         {/* {error ? (
