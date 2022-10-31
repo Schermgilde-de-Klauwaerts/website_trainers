@@ -8,18 +8,34 @@ function PreviousMonthDay(dag) {
 
 function Training({ data }) {
   return (
-    <div className="flex flex-row border-2 border-blue-700">
-      <p className="font-bold mx-2">{data.trainer}:</p>
-      <p>{data.startuur}</p>
-      <p> - </p>
-      <p>{data.einduur}</p>
+    <div
+      className={
+        data.trainer === ""
+          ? "flex border-2 border-red-700"
+          : "flex border-2 border-blue-700"
+      }
+    >
+      {data.trainer === "" ? null : (
+        <p className="font-bold ml-2">{data.trainer}:</p>
+      )}
+      <div className="flex ml-2">
+        <p>{data.startuur}</p>
+        <p> - </p>
+        <p>{data.einduur}</p>
+      </div>
     </div>
   );
 }
 
 function Wedstrijd({ data }) {
   return (
-    <div className="flex flex-col border-2 border-green-700">
+    <div
+      className={
+        data.trainer === ""
+          ? "flex flex-col border-2 border-red-700"
+          : "flex flex-col border-2 border-green-700"
+      }
+    >
       <p className="font-bold mx-2">{data.notities}</p>
       <p className="">{data.trainer}</p>
     </div>

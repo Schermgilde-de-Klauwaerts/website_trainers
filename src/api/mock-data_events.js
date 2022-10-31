@@ -44,6 +44,15 @@ const EVENTS_DATA = [
     einduur: "",
     notities: "VSB Beker Sint-Niklaas",
   },
+  {
+    id: 6,
+    soort: "Training",
+    trainer: "",
+    datum: "zaterdag 10/10/2022",
+    startuur: "18:00",
+    einduur: "19:30",
+    notities: "",
+  },
 ];
 
 export default EVENTS_DATA;
