@@ -97,7 +97,7 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
           <select
             name="trainer"
             id="trainer"
-            {...register("trainer", { required: "Trainer is verplicht" })}
+            {...register("trainer")}
             className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
           >
             <option value=""> -- Selecteer een trainer -- </option>
@@ -145,32 +145,18 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
             type="time"
             id="startuur"
             name="startuur"
-            {...register("startuur", { required: "Startuur is verplicht" })}
+            {...register("startuur")}
             className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2 mr-2"
             hidden={type === "Wedstrijd" ? "hidden" : ""}
           ></input>
-          <ErrorMessage
-            errors={errors}
-            name="startuur"
-            render={({ message }) => (
-              <p className="col-span-3 text-red-500 mb-2">{message}</p>
-            )}
-          />
           <input
             type="time"
             id="einduur"
             name="einduur"
-            {...register("einduur", { required: "Einduur is verplicht" })}
+            {...register("einduur")}
             className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
             hidden={type === "Wedstrijd" ? "hidden" : ""}
           ></input>
-          <ErrorMessage
-            errors={errors}
-            name="einduur"
-            render={({ message }) => (
-              <p className="col-span-3 text-red-500 mb-2">{message}</p>
-            )}
-          />
           <label
             htmlFor="notities"
             className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
@@ -184,13 +170,6 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
             // disabled={imageUploaden}
             {...register("notities")}
             className="col-span-6 border-2 border-gray-600 mb-2 h-12 pl-2"
-          />
-          <ErrorMessage
-            errors={errors}
-            name="notities"
-            render={({ message }) => (
-              <p className="col-span-6 text-red-500 mb-2">{message}</p>
-            )}
           />
           <button
             type="submit"
