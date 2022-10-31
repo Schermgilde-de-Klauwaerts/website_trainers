@@ -64,14 +64,9 @@ export default function Kalender() {
           notities: notities,
         },
       ]);
-      console.log(events);
     },
     [events]
   );
-
-  useEffect(() => {
-    console.log(events);
-  }, [events]);
 
   return (
     <div>
@@ -92,10 +87,10 @@ export default function Kalender() {
 
       <div className="text-center mb-4">
         <button
-          className="border-2 border-black"
+          className="border-2 border-black px-2 py-1"
           onClick={() => setIsOpen(true)}
         >
-          Add Event
+          Voeg een training, wedstrijd,... toe
         </button>
         <Modal
           open={isOpen}
