@@ -5,6 +5,7 @@ import Maand from "../components/kalender/Maand";
 import Modal from "../components/modals/Modal";
 import EditModal from "../components/modals/EditModal";
 import Error from "../components/Error";
+import Loader from "../components/Loader";
 
 import MAANDEN from "../api/mock_maanden";
 import DAGEN from "../api/mock_dagen";
@@ -22,15 +23,19 @@ export default function Kalender() {
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   // const [eventToEdit, setEventToEdit] = useState(EVENTS_DATA[0]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
+        setLoading(true);
         const data = await eventsApi.getAll();
         setEvents(data);
       } catch (error) {
         console.error(error);
         setError(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -150,8 +155,9 @@ export default function Kalender() {
         ></EditModal>
       ) : null} */}
 
+      <Loader loading={loading} />
       <Error error={error} />
-      {!error ? (
+      {!loading && !error ? (
         <Maand
           maand={maand}
           dagen={DAGEN}
