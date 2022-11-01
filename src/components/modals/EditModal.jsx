@@ -25,13 +25,7 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function EditModal({
-  open,
-  onClose,
-  trainers,
-  updateEvent,
-  event,
-}) {
+export default function EditModal({ onClose, trainers, updateEvent, event }) {
   const methods = useForm();
   const {
     register,
@@ -42,12 +36,11 @@ export default function EditModal({
   // const { createItem, loading } = useItems();
 
   const [message, setMessage] = useState();
-  const [type, setType] = useState(null);
-  const [trainer, setTrainer] = useState(null);
-  const [datum, setDatum] = useState(null);
-  const [startuur, setStartuur] = useState(null);
-  const [einduur, setEinduur] = useState(null);
-  const [notities, setNotities] = useState(null);
+  const [type, setType] = useState(event.soort);
+  const [trainer, setTrainer] = useState(event.trainer);
+  const [startuur, setStartuur] = useState(event.startuur);
+  const [einduur, setEinduur] = useState(event.einduur);
+  const [notities, setNotities] = useState(event.notities);
 
   // const [imageUploaden, setImageUploaden] = useState(loading);
 
@@ -68,31 +61,20 @@ export default function EditModal({
 
   const onSubmit = useCallback(
     async (data) => {
+      const { trainer, type, startuur, einduur, notities } = data;
       updateEvent({
         id: event.id,
         soort: type,
         trainer: trainer,
-        datum: datum,
+        datum: event.datum,
         startuur: startuur,
         einduur: einduur,
         notities: notities,
       });
       onClose();
     },
-    [
-      updateEvent,
-      onClose,
-      type,
-      trainer,
-      datum,
-      startuur,
-      einduur,
-      notities,
-      event,
-    ]
+    [updateEvent, onClose, event]
   );
-
-  if (!open) return null;
 
   return ReactDom.createPortal(
     <>
@@ -111,12 +93,11 @@ export default function EditModal({
           <select
             name="type"
             id="type"
-            value={type}
+            defaultValue={type}
             onChange={(e) => setType(e.target.value)}
             className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
             {...register("type", { required: "Type is verplicht" })}
           >
-            <option value=""> -- Selecteer een type -- </option>
             <option value="Training">Training</option>
             <option value="Wedstrijd">Wedstrijd</option>
           </select>
@@ -136,12 +117,11 @@ export default function EditModal({
           <select
             name="trainer"
             id="trainer"
-            value={trainer}
+            defaultValue={trainer}
             onChange={(e) => setTrainer(e.target.value)}
             {...register("trainer")}
             className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
           >
-            <option value=""> -- Selecteer een trainer -- </option>
             {trainers.map((trainer) => (
               <option key={trainer} value={trainer}>
                 {trainer}
@@ -149,38 +129,16 @@ export default function EditModal({
             ))}
           </select>
           <label
-            htmlFor="datum"
-            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-          >
-            DATUM
-          </label>
-          <input
-            type="date"
-            id="datum"
-            name="datum"
-            value={datum}
-            onChange={(e) => setDatum(e.target.value)}
-            {...register("datum", { required: "Datum is verplicht" })}
-            className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
-          ></input>
-          <ErrorMessage
-            errors={errors}
-            name="datum"
-            render={({ message }) => (
-              <p className="col-span-6 text-red-500 mb-2">{message}</p>
-            )}
-          />
-          <label
             htmlFor="startuur"
             className="col-span-3 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-            hidden={type === "Wedstrijd" ? "hidden" : ""}
+            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
           >
             STARTUUR
           </label>
           <label
             htmlFor="einduur"
             className="col-span-3 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-            hidden={type === "Wedstrijd" ? "hidden" : ""}
+            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
           >
             EINDUUR
           </label>
@@ -188,21 +146,21 @@ export default function EditModal({
             type="time"
             id="startuur"
             name="startuur"
-            value={startuur}
+            defaultValue={startuur}
             onChange={(e) => setStartuur(e.target.value)}
             {...register("startuur")}
             className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2 mr-2"
-            hidden={type === "Wedstrijd" ? "hidden" : ""}
+            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
           ></input>
           <input
             type="time"
             id="einduur"
             name="einduur"
-            value={einduur}
+            defaultValue={einduur}
             onChange={(e) => setEinduur(e.target.value)}
             {...register("einduur")}
             className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
-            hidden={type === "Wedstrijd" ? "hidden" : ""}
+            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
           ></input>
           <label
             htmlFor="notities"
@@ -213,7 +171,7 @@ export default function EditModal({
           <input
             type="text"
             id="notities"
-            value={notities}
+            defaultValue={notities}
             onChange={(e) => setNotities(e.target.value)}
             // disabled={imageUploaden}
             {...register("notities")}

@@ -43,10 +43,9 @@ function Wedstrijd({ data, editEvent }) {
     >
       <div className="flex flex-row">
         <p className="font-bold ml-2 mr-auto">{data.notities}</p>
-        <AiFillEdit
-          className="mr-2 my-auto hover:cursor-pointer"
-          onClick={() => editEvent(data)}
-        />
+        <button onClick={() => editEvent(data)}>
+          <AiFillEdit className="mr-2 my-auto" />
+        </button>
       </div>
       <p className="mx-auto">{data.trainer.split(" ")[0]}</p>
     </div>

@@ -1,25 +1,41 @@
-import React, { useState } from "react";
-import { useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 
 import Navigation from "../components/Navigation";
 import Maand from "../components/kalender/Maand";
 import Modal from "../components/modals/Modal";
 import EditModal from "../components/modals/EditModal";
+import Error from "../components/Error";
 
 import MAANDEN from "../api/mock_maanden";
 import DAGEN from "../api/mock_dagen";
 import AANTALDAGENPERMAAND from "../api/mock_aantal_dagen_per_maand";
-import EVENTS_DATA from "../api/mock-data_events";
 import TRAINERS from "../api/mock_trainers";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
+import * as eventsApi from "../api/events";
+
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
-  const [events, setEvents] = useState(EVENTS_DATA);
+  const [events, setEvents] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  const [eventToEdit, setEventToEdit] = useState(null);
+  // const [eventToEdit, setEventToEdit] = useState(EVENTS_DATA[0]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const data = await eventsApi.getAll();
+        setEvents(data);
+      } catch (error) {
+        console.error(error);
+        setError(error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   const verlaagMaand = () => {
     if (maand > 0) {
@@ -71,7 +87,7 @@ export default function Kalender() {
   );
 
   const editEvent = useCallback((data) => {
-    setEventToEdit(data);
+    // setEventToEdit(data);
     setIsOpenEditModal(true);
   }, []);
 
@@ -125,21 +141,25 @@ export default function Kalender() {
         ></Modal>
       </div>
 
-      {/* <EditModal
-        open={isOpenEditModal}
-        onClose={() => setIsOpenEditModal(false)}
-        trainers={TRAINERS}
-        updateEvent={updateEvent}
-        event={eventToEdit}
-      ></EditModal> */}
+      {/* {isOpenEditModal ? (
+        <EditModal
+          onClose={() => setIsOpenEditModal(false)}
+          trainers={TRAINERS}
+          updateEvent={updateEvent}
+          event={eventToEdit}
+        ></EditModal>
+      ) : null} */}
 
-      <Maand
-        maand={maand}
-        dagen={DAGEN}
-        aantalDagenPerMaand={AANTALDAGENPERMAAND}
-        events={events}
-        editEvent={editEvent}
-      />
+      <Error error={error} />
+      {!error ? (
+        <Maand
+          maand={maand}
+          dagen={DAGEN}
+          aantalDagenPerMaand={AANTALDAGENPERMAAND}
+          events={events}
+          editEvent={editEvent}
+        />
+      ) : null}
     </div>
   );
 }
