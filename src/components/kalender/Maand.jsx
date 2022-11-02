@@ -7,6 +7,7 @@ export default function Maand({
   aantalDagenPerMaand,
   events,
   editEvent,
+  onDelete,
 }) {
   const [aantalDagen, setAantalDagen] = useState(aantalDagenPerMaand[maand]);
   const [jaar, setJaar] = useState(new Date().getFullYear());
@@ -62,6 +63,7 @@ export default function Maand({
             key={index + 1}
             eventsForDay={eventsForDay(index + 1)}
             editEvent={editEvent}
+            onDelete={onDelete}
           />
         ))}
       </div>

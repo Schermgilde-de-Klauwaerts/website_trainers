@@ -1,5 +1,5 @@
-import React from "react";
-import { AiFillEdit } from "react-icons/ai";
+import React, { useCallback } from "react";
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
 function PreviousMonthDay() {
   return (
@@ -7,7 +7,7 @@ function PreviousMonthDay() {
   );
 }
 
-function Training({ data, editEvent }) {
+function Training({ data, editEvent, deleteEvent }) {
   return (
     <div
       className={
@@ -24,15 +24,25 @@ function Training({ data, editEvent }) {
         <p> - </p>
         <p>{data.einduur}</p>
       </div>
-      <AiFillEdit
-        className="ml-auto mr-2 my-auto hover:cursor-pointer"
-        onClick={() => editEvent(data)}
-      />
+      <button className="my-auto ml-auto mr-2" onClick={() => editEvent(data)}>
+        <AiFillEdit className="my-auto" />
+      </button>
+      <button className="my-auto mr-2" onClick={() => deleteEvent(data.id)}>
+        <AiFillDelete className="my-auto" />
+      </button>
     </div>
   );
 }
 
-function Wedstrijd({ data, editEvent }) {
+function Wedstrijd({ data, editEvent, deleteEvent }) {
+  const handleDelete = useCallback(
+    async (event) => {
+      event.preventDefault();
+      deleteEvent(data.id);
+    },
+    [deleteEvent, data.id]
+  );
+
   return (
     <div
       className={
@@ -46,21 +56,34 @@ function Wedstrijd({ data, editEvent }) {
         <button onClick={() => editEvent(data)}>
           <AiFillEdit className="mr-2 my-auto" />
         </button>
+        <button className="my-auto mr-2" onClick={handleDelete}>
+          <AiFillDelete className="my-auto" />
+        </button>
       </div>
       <p className="mx-auto">{data.trainer.split(" ")[0]}</p>
     </div>
   );
 }
 
-function CurrentMonthDay({ dag, events = [], editEvent }) {
+function CurrentMonthDay({ dag, events = [], editEvent, onDelete }) {
   return (
     <div className="text-center border-2 border-black h-36">
       <div>{dag}</div>
       {events.map((e) =>
         e.soort === "Training" ? (
-          <Training key={e.soort + e.trainer} data={e} editEvent={editEvent} />
+          <Training
+            key={e.soort + e.trainer}
+            data={e}
+            editEvent={editEvent}
+            deleteEvent={onDelete}
+          />
         ) : (
-          <Wedstrijd key={e.soort + e.trainer} data={e} editEvent={editEvent} />
+          <Wedstrijd
+            key={e.soort + e.trainer}
+            data={e}
+            editEvent={editEvent}
+            deleteEvent={onDelete}
+          />
         )
       )}
     </div>
@@ -68,7 +91,7 @@ function CurrentMonthDay({ dag, events = [], editEvent }) {
 }
 
 export default function Dag(props) {
-  const { dag, previousMonth, eventsForDay, editEvent } = props;
+  const { dag, previousMonth, eventsForDay, editEvent, onDelete } = props;
 
   return (
     <div key={dag}>
@@ -79,6 +102,7 @@ export default function Dag(props) {
           dag={dag}
           events={eventsForDay}
           editEvent={editEvent}
+          onDelete={onDelete}
         />
       )}
     </div>

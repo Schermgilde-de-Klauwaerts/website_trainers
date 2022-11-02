@@ -20,39 +20,26 @@ export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
   const [events, setEvents] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
+  // const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   // const [eventToEdit, setEventToEdit] = useState(EVENTS_DATA[0]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        setLoading(true);
-        const data = await eventsApi.getAll();
-        setEvents(data);
-      } catch (error) {
-        console.error(error);
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
+  const refreshEvents = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await eventsApi.getAll();
+      setEvents(data);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
-
-  const verlaagMaand = () => {
-    if (maand > 0) {
-      setMaand(maand - 1);
-    }
-  };
-
-  const verhoogMaand = () => {
-    if (maand < MAANDEN.length - 1) {
-      setMaand(maand + 1);
-    }
-  };
+  useEffect(() => {
+    refreshEvents();
+  }, [refreshEvents]);
 
   const addEvent = useCallback(
     (data) => {
@@ -93,7 +80,8 @@ export default function Kalender() {
 
   const editEvent = useCallback((data) => {
     // setEventToEdit(data);
-    setIsOpenEditModal(true);
+    // setIsOpenEditModal(true);
+    console.log("edit " + data.id);
   }, []);
 
   const updateEvent = useCallback(
@@ -114,6 +102,40 @@ export default function Kalender() {
     [events]
   );
 
+  const handleDelete = useCallback(async (idToDelete) => {
+    try {
+      setError(null);
+      await eventsApi.deleteById(idToDelete);
+      setEvents((events) => events.filter(({ id }) => id !== idToDelete)); // 👈 2
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    }
+  }, []);
+
+  const createEvent = useCallback(async (event) => {
+    try {
+      setError(null);
+      await eventsApi.save({
+        ...event,
+      });
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    }
+  }, []);
+
+  const verlaagMaand = () => {
+    if (maand > 0) {
+      setMaand(maand - 1);
+    }
+  };
+
+  const verhoogMaand = () => {
+    if (maand < MAANDEN.length - 1) {
+      setMaand(maand + 1);
+    }
+  };
   return (
     <div>
       <h1 className="text-3xl font-bold my-2 ml-10">Kalender</h1>
@@ -164,6 +186,7 @@ export default function Kalender() {
           aantalDagenPerMaand={AANTALDAGENPERMAAND}
           events={events}
           editEvent={editEvent}
+          onDelete={handleDelete}
         />
       ) : null}
     </div>
