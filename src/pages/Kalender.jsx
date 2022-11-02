@@ -14,22 +14,25 @@ import TRAINERS from "../api/mocks/mock_trainers";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
-import * as eventsApi from "../api/events";
+import * as trainingenApi from "../api/trainingen";
+import * as wedstrijdenApi from "../api/wedstrijden";
+import * as kampenApi from "../api/kampen";
 
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
-  const [events, setEvents] = useState([]);
+  const [jaar, setJaar] = useState(new Date().getFullYear());
+
+  const [trainingen, setTrainingen] = useState([]);
+
   const [isOpenModal, setIsOpenModal] = useState(false);
-  // const [isOpenEditModal, setIsOpenEditModal] = useState(false);
-  // const [eventToEdit, setEventToEdit] = useState(EVENTS_DATA[0]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const refreshEvents = useCallback(async () => {
+  const refreshTrainingen = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await eventsApi.getAll();
-      setEvents(data);
+      const data = await trainingenApi.getAll();
+      setTrainingen(data);
     } catch (error) {
       console.error(error);
       setError(error);
@@ -37,76 +40,16 @@ export default function Kalender() {
       setLoading(false);
     }
   }, []);
+
   useEffect(() => {
-    refreshEvents();
-  }, [refreshEvents]);
-
-  const addEvent = useCallback(
-    (data) => {
-      const { trainer, type, datum, startuur, einduur, notities } = data;
-
-      const dag = datum.split("-")[2];
-      const maand = datum.split("-")[1];
-      const jaar = datum.split("-")[0];
-
-      let date = new Date(Date.UTC(jaar, maand - 1, dag));
-
-      const options = {
-        weekday: "long",
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-      };
-
-      date = date.toLocaleDateString("nl-BE", options);
-
-      console.log(date);
-
-      setEvents([
-        ...events,
-        {
-          id: 5,
-          soort: type,
-          trainer: trainer,
-          datum: date,
-          startuur: startuur,
-          einduur: einduur,
-          notities: notities,
-        },
-      ]);
-    },
-    [events]
-  );
-
-  const editEvent = useCallback((data) => {
-    // setEventToEdit(data);
-    // setIsOpenEditModal(true);
-    console.log("edit " + data.id);
-  }, []);
-
-  const updateEvent = useCallback(
-    (data) => {
-      const { id, trainer, type, datum, startuur, einduur, notities } = data;
-      const event = events.find((event) => event.id === id);
-      const index = events.indexOf(event);
-      events.splice(index, 1, {
-        id: id,
-        soort: type,
-        trainer: trainer,
-        datum: datum,
-        startuur: startuur,
-        einduur: einduur,
-        notities: notities,
-      });
-    },
-    [events]
-  );
+    refreshTrainingen();
+  }, [refreshTrainingen]);
 
   const handleDelete = useCallback(async (idToDelete) => {
     try {
       setError(null);
-      await eventsApi.deleteById(idToDelete);
-      setEvents((events) => events.filter(({ id }) => id !== idToDelete)); // 👈 2
+      await trainingenApi.deleteById(idToDelete);
+      setTrainingen((events) => events.filter(({ id }) => id !== idToDelete));
     } catch (error) {
       console.error(error);
       setError(error);
@@ -114,39 +57,51 @@ export default function Kalender() {
   }, []);
 
   const createEvent = useCallback(
-    async (event) => {
+    async (type, event) => {
       try {
         setError(null);
-        await eventsApi.save({
+        await trainingenApi.save({
           ...event,
         });
-        await refreshEvents();
+        await refreshTrainingen();
       } catch (error) {
         console.error(error);
         setError(error);
       }
     },
-    [refreshEvents]
+    [refreshTrainingen]
   );
 
-  const verlaagMaand = () => {
-    if (maand > 0) {
-      setMaand(maand - 1);
+  const getEventsByDay = useCallback(async (day) => {
+    try {
+      setError(null);
+      const trainingen = await trainingenApi.getByDate(day);
+      const wedstrijden = await wedstrijdenApi.getByDate(day);
+      const kampen = await kampenApi.getByDate(day);
+      return trainingen;
+    } catch (error) {
+      console.error(error);
+      setError(error);
     }
-  };
+  }, []);
 
-  const verhoogMaand = () => {
-    if (maand < MAANDEN.length - 1) {
-      setMaand(maand + 1);
-    }
-  };
+  const verlaagMaand = useCallback(() => {
+    setJaar(maand === 0 ? jaar - 1 : jaar);
+    setMaand(maand === 0 ? 11 : maand - 1);
+  }, [maand, jaar]);
+
+  const verhoogMaand = useCallback(() => {
+    setJaar(maand === 11 ? jaar + 1 : jaar);
+    setMaand((maand + 1) % 12);
+  }, [maand, jaar]);
 
   return (
     <div>
       <h1 className="text-3xl font-bold my-2 ml-10">Kalender</h1>
       <Navigation />
 
-      <div className="flex flex-row justify-center my-4">
+      <h1 className="text-3xl text-center font-bold w-48 mx-auto">{jaar}</h1>
+      <div className="flex flex-row justify-center mb-4">
         <button className="text-3xl mx-4" onClick={verlaagMaand}>
           <AiFillCaretLeft />
         </button>
@@ -163,7 +118,7 @@ export default function Kalender() {
           className="border-2 border-black px-2 py-1"
           onClick={() => setIsOpenModal(true)}
         >
-          Voeg een training, wedstrijd,... toe
+          Voeg een training, wedstrijd of kamp toe
         </button>
         <Modal
           open={isOpenModal}
@@ -184,16 +139,18 @@ export default function Kalender() {
 
       <Loader loading={loading} />
       <Error error={error} />
-      {!loading && !error ? (
-        <Maand
-          maand={maand}
-          dagen={DAGEN}
-          aantalDagenPerMaand={AANTALDAGENPERMAAND}
-          events={events}
-          editEvent={editEvent}
-          onDelete={handleDelete}
-        />
-      ) : null}
+      {!loading && !error
+        ? // <Maand
+          //   maand={maand}
+          //   jaar={jaar}
+          //   dagen={DAGEN}
+          //   aantalDagenPerMaand={AANTALDAGENPERMAAND}
+          //   trainingen={trainingen}
+          //   editEvent={editTraining}
+          //   onDelete={handleDelete}
+          // />
+          null
+        : null}
     </div>
   );
 }

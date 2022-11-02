@@ -3,41 +3,41 @@ import Dag from "./Dag";
 
 export default function Maand({
   maand,
+  jaar,
   dagen,
   aantalDagenPerMaand,
-  events,
+  trainingen,
   editEvent,
   onDelete,
 }) {
+  const [events, setTrainingen] = useState([]);
   const [aantalDagen, setAantalDagen] = useState(aantalDagenPerMaand[maand]);
-  const [jaar, setJaar] = useState(new Date().getFullYear());
-  const [eventsForMonth, setEventsForMonth] = useState(
-    events.filter(
-      (event) =>
-        event.datum.split(" ")[1].split("/")[1].toString() ===
-        (maand + 1).toString()
-    )
-  );
+  const [trainingenForMonth, setTrainingenForMonth] = useState([]);
 
-  useEffect(() => {
+  console.log(trainingenForMonth);
+
+  useEffect(async () => {
+    const trainingen = await trainingen;
+    setTrainingen(trainingen);
     setAantalDagen(aantalDagenPerMaand[maand]);
-    setJaar(new Date().getFullYear());
-    setEventsForMonth(
-      events.filter(
-        (event) =>
-          event.datum.split(" ")[1].split("/")[1] === (maand + 1).toString()
+    setTrainingenForMonth(
+      trainingen.filter(
+        (training) =>
+          training.datum.split("-")[1].toString() === (maand + 1).toString()
       )
     );
-  }, [aantalDagenPerMaand, maand, events]);
+  }, [aantalDagenPerMaand, maand, trainingen]);
 
   const calculateFirstDay = () => {
     const date = new Date(jaar, maand, 1);
     return date.getDay() === 0 ? 0 : date.getDay() - 1;
   };
 
-  const eventsForDay = (day) => {
-    return eventsForMonth.filter(
-      (event) => event.datum.split(" ")[1].split("/")[0] === day.toString()
+  const trainingenForDay = (day) => {
+    console.log(trainingenForMonth);
+    return trainingenForMonth.filter(
+      (training) =>
+        training.datum.split(" ")[1].split("/")[0] === day.toString()
     );
   };
 
@@ -61,7 +61,7 @@ export default function Maand({
           <Dag
             dag={index + 1}
             key={index + 1}
-            eventsForDay={eventsForDay(index + 1)}
+            eventsForDay={trainingenForDay(index + 1)}
             editEvent={editEvent}
             onDelete={onDelete}
           />

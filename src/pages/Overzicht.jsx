@@ -3,12 +3,36 @@ import React, { useState } from "react";
 import Navigation from "../components/Navigation";
 import EventList from "../components/trainingen/EventList";
 
-import EVENTS_DATA from "../api/mock-data_events";
 import TRAINERS from "../api/mocks/mock_trainers";
 import MAANDEN from "../api/mocks/mock_maanden";
+import { useCallback } from "react";
+import { useEffect } from "react";
+
+import * as trainingenApi from "../api/trainingen";
 
 export default function Overzicht() {
+  const [trainingen, setTrainingen] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const [maand, setMaand] = useState(MAANDEN[new Date().getMonth()]);
+
+  const refreshTrainingen = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await trainingenApi.getAll();
+      setTrainingen(data);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshTrainingen();
+  }, [refreshTrainingen]);
 
   const handleMaandChange = (e) => {
     setMaand(e.target.value);
@@ -45,7 +69,7 @@ export default function Overzicht() {
       </div>
 
       <EventList
-        events={EVENTS_DATA}
+        events={trainingen}
         trainers={TRAINERS}
         maand={MAANDEN.indexOf(maand) + 1}
       />

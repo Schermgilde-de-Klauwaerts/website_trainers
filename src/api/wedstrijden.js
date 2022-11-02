@@ -12,6 +12,11 @@ export const getById = async (id) => {
   return data.data;
 };
 
+export const getByDate = async (date) => {
+  const { data } = await axios.get(`${baseUrl}/date/${date}`);
+  return data.data;
+};
+
 export const deleteById = async (id) => {
   const { data } = await axios.delete(`${baseUrl}/${id}`);
   return data.data;
