@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = `${process.env.REACT_APP_API_URL}/trainingen`;
+const baseUrl = `${process.env.REACT_APP_API_URL}/kampen`;
 
 export const getAll = async () => {
   const { data } = await axios.get(baseUrl);
@@ -17,8 +17,8 @@ export const deleteById = async (id) => {
   return data.data;
 };
 
-export const save = async (training) => {
-  const { id, ...values } = training;
+export const save = async (kampen) => {
+  const { id, ...values } = kampen;
   await axios({
     method: id ? "PUT" : "POST",
     url: `${baseUrl}/${id ?? ""}`,
