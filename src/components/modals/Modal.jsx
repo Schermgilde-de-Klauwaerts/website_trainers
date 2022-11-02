@@ -56,7 +56,8 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
 
   const onSubmit = useCallback(
     async (data) => {
-      addEvent(data);
+      console.log(data);
+      // addEvent(data);
       onClose();
     },
     [addEvent, onClose]

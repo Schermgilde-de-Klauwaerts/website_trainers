@@ -113,17 +113,21 @@ export default function Kalender() {
     }
   }, []);
 
-  const createEvent = useCallback(async (event) => {
-    try {
-      setError(null);
-      await eventsApi.save({
-        ...event,
-      });
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  }, []);
+  const createEvent = useCallback(
+    async (event) => {
+      try {
+        setError(null);
+        await eventsApi.save({
+          ...event,
+        });
+        await refreshEvents();
+      } catch (error) {
+        console.error(error);
+        setError(error);
+      }
+    },
+    [refreshEvents]
+  );
 
   const verlaagMaand = () => {
     if (maand > 0) {
@@ -164,7 +168,7 @@ export default function Kalender() {
           open={isOpenModal}
           onClose={() => setIsOpenModal(false)}
           trainers={TRAINERS}
-          addEvent={addEvent}
+          addEvent={createEvent}
         ></Modal>
       </div>
 
