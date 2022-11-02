@@ -7,10 +7,10 @@ import EditModal from "../components/modals/EditModal";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 
-import MAANDEN from "../api/mock_maanden";
-import DAGEN from "../api/mock_dagen";
-import AANTALDAGENPERMAAND from "../api/mock_aantal_dagen_per_maand";
-import TRAINERS from "../api/mock_trainers";
+import MAANDEN from "../api/mocks/mock_maanden";
+import DAGEN from "../api/mocks/mock_dagen";
+import AANTALDAGENPERMAAND from "../api/mocks/mock_aantal_dagen_per_maand";
+import TRAINERS from "../api/mocks/mock_trainers";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
@@ -140,6 +140,7 @@ export default function Kalender() {
       setMaand(maand + 1);
     }
   };
+
   return (
     <div>
       <h1 className="text-3xl font-bold my-2 ml-10">Kalender</h1>

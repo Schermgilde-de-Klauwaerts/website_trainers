@@ -4,8 +4,8 @@ import Navigation from "../components/Navigation";
 import EventList from "../components/trainingen/EventList";
 
 import EVENTS_DATA from "../api/mock-data_events";
-import TRAINERS from "../api/mock_trainers";
-import MAANDEN from "../api/mock_maanden";
+import TRAINERS from "../api/mocks/mock_trainers";
+import MAANDEN from "../api/mocks/mock_maanden";
 
 export default function Overzicht() {
   const [maand, setMaand] = useState(MAANDEN[new Date().getMonth()]);
