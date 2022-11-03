@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDom from "react-dom";
 import { useCallback, useState } from "react";
-// import { useItems } from "../contexts/ItemsProvider";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
@@ -25,6 +24,16 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
+const WEEKDAY = [
+  "Zondag",
+  "Maandag",
+  "Dinsdag",
+  "Woensdag",
+  "Donderdag",
+  "Vrijdag",
+  "Zaterdag",
+];
+
 export default function Modal({ open, onClose, trainers, addEvent }) {
   const methods = useForm();
   const {
@@ -33,31 +42,28 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
     reset,
     formState: { errors },
   } = methods;
-  // const { createItem, loading } = useItems();
 
   const [message, setMessage] = useState();
   const [type, setType] = useState("Training");
-  // const [imageUploaden, setImageUploaden] = useState(loading);
-
-  // const onSubmit = useCallback(
-  //   async (data) => {
-  //     try {
-  //       const { name, price } = data;
-  //       // await createItem({ name, price, korting: 0, imageUrl });
-  //       setMessage("Item succesvol aangemaakt");
-  //     } catch (error) {
-  //       setMessage("Er ging iets fout, probeer opnieuw");
-  //     } finally {
-  //       // setImageUploaden(false);
-  //     }
-  //   }
-  //   [createItem]
-  // );
 
   const onSubmit = useCallback(
     async (data) => {
-      console.log(data);
-      // addEvent(data);
+      const { datum, trainer, startuur, einduur, notities } = data;
+      const datumObject = new Date(
+        datum.split("-")[0],
+        datum.split("-")[1] - 1,
+        datum.split("-")[2]
+      );
+      const dag = WEEKDAY[datumObject.getDay("nl-BE")];
+      console.log(dag);
+      addEvent(data.type.toLowerCase(), {
+        datum,
+        dag,
+        trainer,
+        startuur,
+        einduur,
+        notities,
+      });
       onClose();
     },
     [addEvent, onClose]
@@ -89,6 +95,7 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
             <option value=""> -- Selecteer een type -- </option>
             <option value="Training">Training</option>
             <option value="Wedstrijd">Wedstrijd</option>
+            <option value="Kamp">Kamp</option>
           </select>
           <ErrorMessage
             errors={errors}

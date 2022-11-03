@@ -53,9 +53,9 @@ export default function Kalender() {
   );
 
   const addEvent = useCallback(
-    (type, event) => {
+    async (type, event) => {
       if (type === "training") {
-        createTraining(event);
+        await createTraining(event);
       } else if (type === "wedstrijd") {
         setWedstrijden([...wedstrijden, event]);
       } else if (type === "kamp") {
@@ -112,6 +112,7 @@ export default function Kalender() {
         <EditModal
           onClose={() => setIsOpenEditModal(false)}
           trainers={TRAINERS}
+          dagen={DAGEN}
           updateEvent={updateEvent}
           event={eventToEdit}
         ></EditModal>
