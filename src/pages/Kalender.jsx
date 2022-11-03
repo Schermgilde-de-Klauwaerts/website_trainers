@@ -14,76 +14,56 @@ import TRAINERS from "../api/mocks/mock_trainers";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
-import * as trainingenApi from "../api/trainingen";
-import * as wedstrijdenApi from "../api/wedstrijden";
-import * as kampenApi from "../api/kampen";
+import { useTrainingen } from "../contexts/TrainingenProvider";
 
 export default function Kalender() {
+  const { trainingen, error, loading, createTraining } = useTrainingen();
+
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
 
-  const [trainingen, setTrainingen] = useState([]);
+  const [wedstrijden, setWedstrijden] = useState([]);
+  const [kampen, setKampen] = useState([]);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  const refreshTrainingen = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await trainingenApi.getAll();
-      setTrainingen(data);
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    refreshTrainingen();
-  }, [refreshTrainingen]);
-
-  const handleDelete = useCallback(async (idToDelete) => {
-    try {
-      setError(null);
-      await trainingenApi.deleteById(idToDelete);
-      setTrainingen((events) => events.filter(({ id }) => id !== idToDelete));
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  }, []);
-
-  const createEvent = useCallback(
-    async (type, event) => {
+  const getEventsByDay = useCallback(
+    (type, day) => {
       try {
-        setError(null);
-        await trainingenApi.save({
-          ...event,
-        });
-        await refreshTrainingen();
+        let data = [];
+        if (type === "training") {
+          data = trainingen.filter((training) => {
+            return day === training.datum;
+          });
+        } else if (type === "wedstrijd") {
+          data = wedstrijden.filter((training) => {
+            return day === training.datum;
+          });
+        } else if (type === "kamp") {
+          data = kampen.filter((training) => {
+            return day === training.datum;
+          });
+        }
+        return data;
       } catch (error) {
         console.error(error);
-        setError(error);
       }
     },
-    [refreshTrainingen]
+    [trainingen, kampen, wedstrijden]
   );
 
-  const getEventsByDay = useCallback(async (day) => {
-    try {
-      setError(null);
-      const trainingen = await trainingenApi.getByDate(day);
-      const wedstrijden = await wedstrijdenApi.getByDate(day);
-      const kampen = await kampenApi.getByDate(day);
-      return trainingen;
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  }, []);
+  const addEvent = useCallback(
+    (type, event) => {
+      if (type === "training") {
+        createTraining(event);
+      } else if (type === "wedstrijd") {
+        setWedstrijden([...wedstrijden, event]);
+      } else if (type === "kamp") {
+        setKampen([...kampen, event]);
+      }
+    },
+    [createTraining, wedstrijden, kampen]
+  );
 
   const verlaagMaand = useCallback(() => {
     setJaar(maand === 0 ? jaar - 1 : jaar);
@@ -124,7 +104,7 @@ export default function Kalender() {
           open={isOpenModal}
           onClose={() => setIsOpenModal(false)}
           trainers={TRAINERS}
-          addEvent={createEvent}
+          addEvent={addEvent}
         ></Modal>
       </div>
 
@@ -137,20 +117,20 @@ export default function Kalender() {
         ></EditModal>
       ) : null} */}
 
-      <Loader loading={loading} />
-      <Error error={error} />
-      {!loading && !error
-        ? // <Maand
-          //   maand={maand}
-          //   jaar={jaar}
-          //   dagen={DAGEN}
-          //   aantalDagenPerMaand={AANTALDAGENPERMAAND}
-          //   trainingen={trainingen}
-          //   editEvent={editTraining}
-          //   onDelete={handleDelete}
-          // />
-          null
-        : null}
+      <div>
+        <Loader loading={loading} />
+        <Error error={error} />
+        {!loading && !error && trainingen.length !== 0 ? (
+          <Maand
+            maand={maand}
+            jaar={jaar}
+            dagen={DAGEN}
+            aantalDagenPerMaand={AANTALDAGENPERMAAND}
+            eventsForDay={getEventsByDay}
+            trainingen={trainingen}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }

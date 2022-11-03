@@ -4,7 +4,7 @@ const baseUrl = `${process.env.REACT_APP_API_URL}/trainingen`;
 
 export const getAll = async () => {
   const { data } = await axios.get(baseUrl);
-  return data.data;
+  return data;
 };
 
 export const getById = async (id) => {
