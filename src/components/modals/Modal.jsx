@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import TrainingForm from "../forms/TrainingForm";
+import WedstrijdForm from "../forms/WedstrijdForm";
 
 const MODAL_STYLES = {
   position: "fixed",
@@ -49,21 +50,15 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
 
   const onSubmit = useCallback(
     async (data) => {
-      const { datum, trainer, startuur, einduur, notities } = data;
+      console.log(data);
+      const { datum } = data;
       const datumObject = new Date(
         datum.split("-")[0],
         datum.split("-")[1] - 1,
         datum.split("-")[2]
       );
       const dag = WEEKDAY[datumObject.getDay("nl-BE")];
-      addEvent(data.type.toLowerCase(), {
-        datum,
-        dag,
-        trainer,
-        startuur,
-        einduur,
-        notities,
-      });
+      addEvent(data.type.toLowerCase(), { dag, ...data });
       onClose();
     },
     [addEvent, onClose]
@@ -110,7 +105,13 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
               errors={errors}
               register={register}
             />
-          ) : null}
+          ) : (
+            <WedstrijdForm
+              trainers={trainers}
+              errors={errors}
+              register={register}
+            />
+          )}
           <button
             type="submit"
             // disabled={imageUploaden}
