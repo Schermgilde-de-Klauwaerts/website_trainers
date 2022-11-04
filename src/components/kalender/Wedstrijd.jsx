@@ -12,7 +12,7 @@ export default function Wedstrijd({ data, onDelete, onUpdate }) {
   const handleUpdate = useCallback(
     (event) => {
       event.preventDefault();
-      onUpdate(data.id);
+      onUpdate("wedstrijd", data.id);
     },
     [data.id, onUpdate]
   );
@@ -33,7 +33,7 @@ export default function Wedstrijd({ data, onDelete, onUpdate }) {
         <button className="my-auto ml-auto mr-2" onClick={handleUpdate}>
           <AiFillEdit className="my-auto" />
         </button>
-        <button className="my-auto ml-auto mr-2" onClick={handleDelete}>
+        <button className="my-auto mr-2" onClick={handleDelete}>
           <AiFillDelete className="my-auto" />
         </button>
       </div>

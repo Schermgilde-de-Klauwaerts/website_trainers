@@ -104,20 +104,21 @@ export default function Kalender() {
     (type, id) => {
       console.log(type, id);
       if (type === "training") {
-        console.log(currentEvent);
-        setCurrentEvent(id === null ? {} : trainingen.find((t) => t.id === id));
+        const event =
+          id === null ? {} : trainingen.find((training) => training.id === id);
+        setCurrentEvent(event);
+        setCurrentEvent(event);
         setIsOpenEditModal(true);
-        console.log(isOpenEditModal);
-        console.log(currentEvent);
       } else if (type === "wedstrijd") {
-        setCurrentEvent(
-          id === null ? {} : wedstrijden.find((w) => w.id === id)
-        );
+        const event = id === null ? {} : wedstrijden.find((w) => w.id === id);
+        setCurrentEvent(event);
+        setCurrentEvent(event);
+        setIsOpenEditModal(true);
       } else if (type === "kamp") {
         setCurrentEvent(id === null ? {} : kampen.find((k) => k.id === id));
       }
     },
-    [trainingen, wedstrijden, kampen, currentEvent, isOpenEditModal]
+    [trainingen, wedstrijden, kampen]
   );
 
   const verlaagMaand = useCallback(() => {
@@ -164,17 +165,14 @@ export default function Kalender() {
       </div>
 
       {isOpenEditModal && JSON.stringify(currentEvent) !== "{}" ? (
-        // <EditModal
-        //   open={isOpenEditModal}
-        //   onClose={() => setIsOpenEditModal(false)}
-        //   trainers={TRAINERS}
-        //   currentEvent={currentEvent}
-        //   updateEvent={updateEvent}
-        // ></EditModal>
-        <div>Je ziet me</div>
-      ) : (
-        <p>Je ziet me niet</p>
-      )}
+        <EditModal
+          open={isOpenEditModal}
+          onClose={() => setIsOpenEditModal(false)}
+          trainers={TRAINERS}
+          event={currentEvent}
+          updateEvent={updateEvent}
+        ></EditModal>
+      ) : null}
 
       <div>
         <Loader loading={loading} />

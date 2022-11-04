@@ -12,7 +12,7 @@ export default function Training({ data, onDelete, onUpdate }) {
   const handleUpdate = useCallback(
     (event) => {
       event.preventDefault();
-      onUpdate(data.id);
+      onUpdate("training", data.id);
     },
     [data.id, onUpdate]
   );
