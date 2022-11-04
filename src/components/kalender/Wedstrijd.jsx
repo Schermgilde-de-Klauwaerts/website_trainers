@@ -1,6 +1,7 @@
 import React from "react";
+import { AiFillDelete } from "react-icons/ai";
 
-export default function Wedstrijd({ data }) {
+export default function Wedstrijd({ data, onDelete }) {
   return (
     <div
       className={
@@ -15,12 +16,12 @@ export default function Wedstrijd({ data }) {
           <p className="ml-2">{data.trainer.split(" ")[0]}</p>
         )}
         {!data.functie ? null : <p className="ml-2">({data.functie}) </p>}
-        {/* <button onClick={() => editEvent(data)}>
-          <AiFillEdit className="mr-2 my-auto" />
-        </button>
-        <button className="my-auto mr-2" onClick={handleDelete}>
+        <button
+          className="my-auto ml-auto mr-2"
+          onClick={() => onDelete("wedstrijd", data.id)}
+        >
           <AiFillDelete className="my-auto" />
-        </button> */}
+        </button>
       </div>
     </div>
   );

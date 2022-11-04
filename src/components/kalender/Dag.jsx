@@ -16,7 +16,11 @@ function CurrentMonthDay({ datum, eventsForDay, handleDelete }) {
         : null}
       {wedstrijden.length !== 0
         ? wedstrijden.map((wedstrijd, index) => (
-            <Wedstrijd key={index + 1} data={wedstrijd} />
+            <Wedstrijd
+              key={index + 1}
+              data={wedstrijd}
+              onDelete={handleDelete}
+            />
           ))
         : null}
     </div>

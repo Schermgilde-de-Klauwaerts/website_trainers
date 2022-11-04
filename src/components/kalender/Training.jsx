@@ -5,7 +5,13 @@ export default function Training({ data, onDelete }) {
   if (!data.trainer && !data.startuur && !data.einduur) {
     return (
       <div className="border-2 border-red-600 bg-red-600 text-white text-center">
-        Training
+        <p>Training</p>
+        <button
+          className="my-auto ml-auto mr-2"
+          onClick={() => onDelete("training", data.id)}
+        >
+          <AiFillDelete className="my-auto" />
+        </button>
       </div>
     );
   }
