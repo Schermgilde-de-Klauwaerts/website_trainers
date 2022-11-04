@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
 function Training({ data }) {
@@ -6,8 +6,8 @@ function Training({ data }) {
     <div
       className={
         data.trainer === null
-          ? "flex border-2 border-red-700"
-          : "flex border-2 border-blue-700"
+          ? "flex border-2 border-red-600 bg-red-600 text-white"
+          : "flex border-2 border-blue-600 bg-blue-600 text-white"
       }
     >
       {data.trainer === null ? null : (
@@ -28,45 +28,45 @@ function Training({ data }) {
   );
 }
 
-// function Wedstrijd({ data, editEvent, deleteEvent }) {
-//   const handleDelete = useCallback(
-//     async (event) => {
-//       event.preventDefault();
-//       deleteEvent(data.id);
-//     },
-//     [deleteEvent, data.id]
-//   );
-
-//   return (
-//     <div
-//       className={
-//         data.trainer === ""
-//           ? "flex flex-col border-2 border-red-700"
-//           : "flex flex-col border-2 border-green-700"
-//       }
-//     >
-//       <div className="flex flex-row">
-//         <p className="font-bold ml-2 mr-auto">{data.notities}</p>
-//         <button onClick={() => editEvent(data)}>
-//           <AiFillEdit className="mr-2 my-auto" />
-//         </button>
-//         <button className="my-auto mr-2" onClick={handleDelete}>
-//           <AiFillDelete className="my-auto" />
-//         </button>
-//       </div>
-//       <p className="mx-auto">{data.trainer.split(" ")[0]}</p>
-//     </div>
-//   );
-// }
+function Wedstrijd({ data }) {
+  return (
+    <div
+      className={
+        data.trainer === null
+          ? "flex border-2 border-red-400 bg-red-600 text-white"
+          : "flex flex-col border-2 bg-green-600  border-green-600 text-white"
+      }
+    >
+      <div className="flex flex-row">
+        <p className="font-bold ml-2">{data.naam}:</p>{" "}
+        <p className="ml-2">
+          {data.trainer.split(" ")[0]} ({data.functie})
+        </p>
+        {/* <button onClick={() => editEvent(data)}>
+          <AiFillEdit className="mr-2 my-auto" />
+        </button>
+        <button className="my-auto mr-2" onClick={handleDelete}>
+          <AiFillDelete className="my-auto" />
+        </button> */}
+      </div>
+    </div>
+  );
+}
 
 function CurrentMonthDay({ datum, eventsForDay }) {
   const trainingen = eventsForDay("training", datum);
+  const wedstrijden = eventsForDay("wedstrijd", datum);
   return (
     <div className="text-center border-2 border-black h-36">
-      <div>{datum.split("-")[2]}</div>
+      <div className="mb-1">{datum.split("-")[2]}</div>
       {trainingen.length !== 0
         ? trainingen.map((training, index) => (
             <Training key={index + 1} data={training} />
+          ))
+        : null}
+      {wedstrijden.length !== 0
+        ? wedstrijden.map((wedstrijd, index) => (
+            <Wedstrijd key={index + 1} data={wedstrijd} />
           ))
         : null}
     </div>

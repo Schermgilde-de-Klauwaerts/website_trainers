@@ -118,18 +118,13 @@ export default function Kalender() {
       <div>
         <Loader loading={loading} />
         <Error error={error} />
-        {!loading &&
-        !error &&
-        trainingen.length !== 0 &&
-        wedstrijden.length !== 0 ? (
+        {!loading && !error ? (
           <Maand
             maand={maand}
             jaar={jaar}
             dagen={DAGEN}
             aantalDagenPerMaand={AANTALDAGENPERMAAND}
             eventsForDay={getEventsByDay}
-            trainingen={trainingen}
-            wedstrijden={wedstrijden}
           />
         ) : null}
       </div>
