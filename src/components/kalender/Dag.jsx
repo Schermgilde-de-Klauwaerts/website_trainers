@@ -3,7 +3,7 @@ import React from "react";
 import Wedstrijd from "./Wedstrijd";
 import Training from "./Training";
 
-function CurrentMonthDay({ datum, eventsForDay, handleDelete }) {
+function CurrentMonthDay({ datum, eventsForDay, handleDelete, handleUpdate }) {
   const trainingen = eventsForDay("training", datum);
   const wedstrijden = eventsForDay("wedstrijd", datum);
   return (
@@ -11,7 +11,12 @@ function CurrentMonthDay({ datum, eventsForDay, handleDelete }) {
       <div className="mb-1">{datum.split("-")[2]}</div>
       {trainingen.length !== 0
         ? trainingen.map((training, index) => (
-            <Training key={index + 1} data={training} onDelete={handleDelete} />
+            <Training
+              key={index + 1}
+              data={training}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
           ))
         : null}
       {wedstrijden.length !== 0
@@ -20,6 +25,7 @@ function CurrentMonthDay({ datum, eventsForDay, handleDelete }) {
               key={index + 1}
               data={wedstrijd}
               onDelete={handleDelete}
+              onUpdate={handleUpdate}
             />
           ))
         : null}
@@ -40,6 +46,7 @@ export default function Dag({
   previousMonth,
   eventsForDay,
   handleDelete,
+  handleUpdate,
 }) {
   const datum = `${jaar}-${maand + 1 < 10 ? "0" : ""}${maand + 1}-${
     dag < 10 ? "0" : ""
@@ -53,6 +60,7 @@ export default function Dag({
           datum={datum}
           eventsForDay={eventsForDay}
           handleDelete={handleDelete}
+          handleUpdate={handleUpdate}
         />
       )}
     </div>

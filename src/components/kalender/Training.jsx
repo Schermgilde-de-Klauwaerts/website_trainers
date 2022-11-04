@@ -1,13 +1,20 @@
 import React from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
-export default function Training({ data, onDelete }) {
+export default function Training({ data, onDelete, onUpdate }) {
   if (!data.trainer && !data.startuur && !data.einduur) {
     return (
       <div className="border-2 border-red-600 bg-red-600 text-white text-center">
         <p>Training</p>
+
         <button
           className="my-auto ml-auto mr-2"
+          onClick={() => onUpdate("training", data.id)}
+        >
+          <AiFillEdit className="my-auto" />
+        </button>
+        <button
+          className="my-auto mr-2"
           onClick={() => onDelete("training", data.id)}
         >
           <AiFillDelete className="my-auto" />
@@ -35,6 +42,12 @@ export default function Training({ data, onDelete }) {
       )}
       <button
         className="my-auto ml-auto mr-2"
+        onClick={() => onUpdate("training", data.id)}
+      >
+        <AiFillEdit className="my-auto" />
+      </button>
+      <button
+        className="my-auto mr-2"
         onClick={() => onDelete("training", data.id)}
       >
         <AiFillDelete className="my-auto" />

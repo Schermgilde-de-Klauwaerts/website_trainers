@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDom from "react-dom";
 import { useCallback, useState } from "react";
-// import { useItems } from "../contexts/ItemsProvider";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 
@@ -25,7 +24,23 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function EditModal({ onClose, trainers, updateEvent, event }) {
+const WEEKDAY = [
+  "Zondag",
+  "Maandag",
+  "Dinsdag",
+  "Woensdag",
+  "Donderdag",
+  "Vrijdag",
+  "Zaterdag",
+];
+
+export default function EditModal({
+  open,
+  onClose,
+  trainers,
+  event,
+  updateEvent,
+}) {
   const methods = useForm();
   const {
     register,
@@ -33,48 +48,31 @@ export default function EditModal({ onClose, trainers, updateEvent, event }) {
     reset,
     formState: { errors },
   } = methods;
-  // const { createItem, loading } = useItems();
 
   const [message, setMessage] = useState();
-  const [type, setType] = useState(event.soort);
   const [trainer, setTrainer] = useState(event.trainer);
   const [startuur, setStartuur] = useState(event.startuur);
   const [einduur, setEinduur] = useState(event.einduur);
   const [notities, setNotities] = useState(event.notities);
 
-  // const [imageUploaden, setImageUploaden] = useState(loading);
-
-  // const onSubmit = useCallback(
-  //   async (data) => {
-  //     try {
-  //       const { name, price } = data;
-  //       // await createItem({ name, price, korting: 0, imageUrl });
-  //       setMessage("Item succesvol aangemaakt");
-  //     } catch (error) {
-  //       setMessage("Er ging iets fout, probeer opnieuw");
-  //     } finally {
-  //       // setImageUploaden(false);
-  //     }
-  //   }
-  //   [createItem]
-  // );
-
   const onSubmit = useCallback(
     async (data) => {
-      const { trainer, type, startuur, einduur, notities } = data;
-      updateEvent({
-        id: event.id,
-        soort: type,
-        trainer: trainer,
-        datum: event.datum,
-        startuur: startuur,
-        einduur: einduur,
-        notities: notities,
-      });
+      console.log(data);
+      const id = event.id;
+      const { datum } = data;
+      const datumObject = new Date(
+        datum.split("-")[0],
+        datum.split("-")[1] - 1,
+        datum.split("-")[2]
+      );
+      const dag = WEEKDAY[datumObject.getDay("nl-BE")];
+      updateEvent(data.type.toLowerCase(), { id, dag, ...data });
       onClose();
     },
-    [updateEvent, onClose, event]
+    [updateEvent, onClose, event.id]
   );
+
+  if (!open) return null;
 
   return ReactDom.createPortal(
     <>
@@ -84,30 +82,6 @@ export default function EditModal({ onClose, trainers, updateEvent, event }) {
           {message && (
             <span className="col-span-6 text-gray-600 mb-2">{message}</span>
           )}
-          <label
-            htmlFor="type"
-            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-          >
-            TYPE
-          </label>
-          <select
-            name="type"
-            id="type"
-            defaultValue={type}
-            onChange={(e) => setType(e.target.value)}
-            className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
-            {...register("type", { required: "Type is verplicht" })}
-          >
-            <option value="Training">Training</option>
-            <option value="Wedstrijd">Wedstrijd</option>
-          </select>
-          <ErrorMessage
-            errors={errors}
-            name="type"
-            render={({ message }) => (
-              <p className="col-span-6 text-red-500 mb-2">{message}</p>
-            )}
-          />
           <label
             htmlFor="trainer"
             className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"

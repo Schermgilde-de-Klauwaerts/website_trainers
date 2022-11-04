@@ -3,7 +3,7 @@ import React, { useState, useCallback } from "react";
 import Navigation from "../components/Navigation";
 import Maand from "../components/kalender/Maand";
 import Modal from "../components/modals/Modal";
-// import EditModal from "../components/modals/EditModal";
+import EditModal from "../components/modals/EditModal";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 
@@ -18,16 +18,25 @@ import { useTrainingen } from "../contexts/TrainingenProvider";
 import { useWedstrijden } from "../contexts/WedstrijdenProvider";
 
 export default function Kalender() {
-  const { trainingen, error, loading, createTraining, deleteTraining } =
-    useTrainingen();
-  const { wedstrijden, createWedstrijd, deleteWedstrijd } = useWedstrijden();
+  const {
+    trainingen,
+    error,
+    loading,
+    createTraining,
+    deleteTraining,
+    updateTraining,
+  } = useTrainingen();
+  const { wedstrijden, createWedstrijd, deleteWedstrijd, updateWedstrijd } =
+    useWedstrijden();
 
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
+  const [currentEvent, setCurrentEvent] = useState({});
 
   const [kampen, setKampen] = useState([]);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
 
   const getEventsByDay = useCallback(
     (type, day) => {
@@ -59,8 +68,23 @@ export default function Kalender() {
       } else if (type === "kamp") {
         setKampen([...kampen, event]);
       }
+      setCurrentEvent({});
     },
     [createTraining, createWedstrijd, kampen]
+  );
+
+  const updateEvent = useCallback(
+    async (type, event) => {
+      if (type === "training") {
+        await updateTraining(event);
+      } else if (type === "wedstrijd") {
+        await updateWedstrijd(event);
+      } else if (type === "kamp") {
+        setKampen([...kampen, event]);
+      }
+      setCurrentEvent({});
+    },
+    [updateTraining, updateWedstrijd, kampen]
   );
 
   const handleDelete = useCallback(
@@ -74,6 +98,22 @@ export default function Kalender() {
       }
     },
     [deleteTraining, deleteWedstrijd, kampen]
+  );
+
+  const setEventToUpdate = useCallback(
+    (type, id) => {
+      //   if (type === "training") {
+      //     setCurrentEvent(id === null ? {} : trainingen.find((t) => t.id === id));
+      //   } else if (type === "wedstrijd") {
+      //     setCurrentEvent(
+      //       id === null ? {} : wedstrijden.find((w) => w.id === id)
+      //     );
+      //   } else if (type === "kamp") {
+      //     setCurrentEvent(id === null ? {} : kampen.find((k) => k.id === id));
+      //   }
+      console.log(type, id);
+    },
+    [trainingen, wedstrijden, kampen]
   );
 
   const verlaagMaand = useCallback(() => {
@@ -119,15 +159,15 @@ export default function Kalender() {
         ></Modal>
       </div>
 
-      {/* {isOpenEditModal ? (
+      {!JSON.stringify(currentEvent) === "{}" ? (
         <EditModal
+          open={isOpenEditModal}
           onClose={() => setIsOpenEditModal(false)}
           trainers={TRAINERS}
-          dagen={DAGEN}
+          currentEvent={currentEvent}
           updateEvent={updateEvent}
-          event={eventToEdit}
         ></EditModal>
-      ) : null} */}
+      ) : null}
 
       <div>
         <Loader loading={loading} />
@@ -140,6 +180,7 @@ export default function Kalender() {
             aantalDagenPerMaand={AANTALDAGENPERMAAND}
             eventsForDay={getEventsByDay}
             handleDelete={handleDelete}
+            handleUpdate={setEventToUpdate}
           />
         ) : null}
       </div>

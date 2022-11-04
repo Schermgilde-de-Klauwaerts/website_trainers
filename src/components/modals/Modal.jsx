@@ -50,7 +50,6 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
 
   const onSubmit = useCallback(
     async (data) => {
-      console.log(data);
       const { datum } = data;
       const datumObject = new Date(
         datum.split("-")[0],
