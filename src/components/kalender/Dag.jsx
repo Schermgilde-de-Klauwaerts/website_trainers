@@ -80,7 +80,9 @@ function PreviousMonthDay() {
 }
 
 export default function Dag({ dag, maand, jaar, previousMonth, eventsForDay }) {
-  const datum = `${jaar}-${maand + 1}-${dag < 10 ? "0" : ""}${dag}`;
+  const datum = `${jaar}-${maand + 1 < 10 ? "0" : ""}${maand + 1}-${
+    dag < 10 ? "0" : ""
+  }${dag}`;
   return (
     <div key={dag}>
       {previousMonth ? (
