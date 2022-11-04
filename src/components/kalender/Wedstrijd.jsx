@@ -1,7 +1,21 @@
-import React from "react";
-import { AiFillDelete } from "react-icons/ai";
+import React, { useCallback } from "react";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
-export default function Wedstrijd({ data, onDelete }) {
+export default function Wedstrijd({ data, onDelete, onUpdate }) {
+  const handleDelete = useCallback(
+    (event) => {
+      event.preventDefault();
+      onDelete(data.id);
+    },
+    [data.id, onDelete]
+  );
+  const handleUpdate = useCallback(
+    (event) => {
+      event.preventDefault();
+      onUpdate(data.id);
+    },
+    [data.id, onUpdate]
+  );
   return (
     <div
       className={
@@ -16,10 +30,10 @@ export default function Wedstrijd({ data, onDelete }) {
           <p className="ml-2">{data.trainer.split(" ")[0]}</p>
         )}
         {!data.functie ? null : <p className="ml-2">({data.functie}) </p>}
-        <button
-          className="my-auto ml-auto mr-2"
-          onClick={() => onDelete("wedstrijd", data.id)}
-        >
+        <button className="my-auto ml-auto mr-2" onClick={handleUpdate}>
+          <AiFillEdit className="my-auto" />
+        </button>
+        <button className="my-auto ml-auto mr-2" onClick={handleDelete}>
           <AiFillDelete className="my-auto" />
         </button>
       </div>
