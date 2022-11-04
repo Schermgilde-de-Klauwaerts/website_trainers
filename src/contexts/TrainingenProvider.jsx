@@ -61,7 +61,7 @@ export const TrainingenProvider = ({ children }) => {
     [refreshTrainingen]
   );
 
-  const updateItem = useCallback(
+  const updateTraining = useCallback(
     async ({ id, datum, dag, trainer, startuur, einduur, notities }) => {
       setError();
       setLoading(true);
@@ -128,7 +128,7 @@ export const TrainingenProvider = ({ children }) => {
       loading,
       createTraining,
       deleteTraining,
-      updateItem,
+      updateTraining,
       getTrainingById,
     }),
     [
@@ -137,7 +137,7 @@ export const TrainingenProvider = ({ children }) => {
       loading,
       createTraining,
       deleteTraining,
-      updateItem,
+      updateTraining,
       getTrainingById,
     ]
   );
