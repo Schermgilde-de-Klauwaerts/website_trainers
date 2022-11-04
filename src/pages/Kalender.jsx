@@ -102,18 +102,22 @@ export default function Kalender() {
 
   const setEventToUpdate = useCallback(
     (type, id) => {
-      //   if (type === "training") {
-      //     setCurrentEvent(id === null ? {} : trainingen.find((t) => t.id === id));
-      //   } else if (type === "wedstrijd") {
-      //     setCurrentEvent(
-      //       id === null ? {} : wedstrijden.find((w) => w.id === id)
-      //     );
-      //   } else if (type === "kamp") {
-      //     setCurrentEvent(id === null ? {} : kampen.find((k) => k.id === id));
-      //   }
       console.log(type, id);
+      if (type === "training") {
+        console.log(currentEvent);
+        setCurrentEvent(id === null ? {} : trainingen.find((t) => t.id === id));
+        setIsOpenEditModal(true);
+        console.log(isOpenEditModal);
+        console.log(currentEvent);
+      } else if (type === "wedstrijd") {
+        setCurrentEvent(
+          id === null ? {} : wedstrijden.find((w) => w.id === id)
+        );
+      } else if (type === "kamp") {
+        setCurrentEvent(id === null ? {} : kampen.find((k) => k.id === id));
+      }
     },
-    [trainingen, wedstrijden, kampen]
+    [trainingen, wedstrijden, kampen, currentEvent, isOpenEditModal]
   );
 
   const verlaagMaand = useCallback(() => {
@@ -159,15 +163,18 @@ export default function Kalender() {
         ></Modal>
       </div>
 
-      {!JSON.stringify(currentEvent) === "{}" ? (
-        <EditModal
-          open={isOpenEditModal}
-          onClose={() => setIsOpenEditModal(false)}
-          trainers={TRAINERS}
-          currentEvent={currentEvent}
-          updateEvent={updateEvent}
-        ></EditModal>
-      ) : null}
+      {isOpenEditModal && JSON.stringify(currentEvent) !== "{}" ? (
+        // <EditModal
+        //   open={isOpenEditModal}
+        //   onClose={() => setIsOpenEditModal(false)}
+        //   trainers={TRAINERS}
+        //   currentEvent={currentEvent}
+        //   updateEvent={updateEvent}
+        // ></EditModal>
+        <div>Je ziet me</div>
+      ) : (
+        <p>Je ziet me niet</p>
+      )}
 
       <div>
         <Loader loading={loading} />

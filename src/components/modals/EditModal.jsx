@@ -49,6 +49,8 @@ export default function EditModal({
     formState: { errors },
   } = methods;
 
+  console.log(event);
+
   const [message, setMessage] = useState();
   const [trainer, setTrainer] = useState(event.trainer);
   const [startuur, setStartuur] = useState(event.startuur);
