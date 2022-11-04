@@ -1,67 +1,7 @@
 import React from "react";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 
-function Training({ data }) {
-  if (!data.trainer && !data.startuur && !data.einduur) {
-    return (
-      <div className="border-2 border-red-600 bg-red-600 text-white text-center">
-        Training
-      </div>
-    );
-  }
-  return (
-    <div
-      className={
-        !data.trainer
-          ? "flex border-2 border-red-600 bg-red-600 text-white"
-          : "flex border-2 border-blue-600 bg-blue-600 text-white"
-      }
-    >
-      {!data.trainer ? null : (
-        <p className="font-bold ml-2">{data.trainer.split(" ")[0]}:</p>
-      )}
-      {!data.startuur || !data.einduur ? null : (
-        <div className="flex ml-2">
-          <p>{data.startuur || null}</p>
-          <p> - </p>
-          <p>{data.einduur || null}</p>
-        </div>
-      )}
-      {/* <button className="my-auto ml-auto mr-2" onClick={() => editEvent(data)}>
-        <AiFillEdit className="my-auto" />
-      </button>
-      <button className="my-auto mr-2" onClick={() => deleteEvent(data.id)}>
-        <AiFillDelete className="my-auto" />
-      </button> */}
-    </div>
-  );
-}
-
-function Wedstrijd({ data }) {
-  return (
-    <div
-      className={
-        data.trainer === null
-          ? "flex border-2 border-red-400 bg-red-600 text-white"
-          : "flex flex-col border-2 bg-green-600  border-green-600 text-white"
-      }
-    >
-      <div className="flex flex-row">
-        <p className="font-bold ml-2">{data.naam}:</p>{" "}
-        {!data.trainer ? null : (
-          <p className="ml-2">{data.trainer.split(" ")[0]}</p>
-        )}
-        {!data.functie ? null : <p className="ml-2">({data.functie}) </p>}
-        {/* <button onClick={() => editEvent(data)}>
-          <AiFillEdit className="mr-2 my-auto" />
-        </button>
-        <button className="my-auto mr-2" onClick={handleDelete}>
-          <AiFillDelete className="my-auto" />
-        </button> */}
-      </div>
-    </div>
-  );
-}
+import Wedstrijd from "./Wedstrijd";
+import Training from "./Training";
 
 function CurrentMonthDay({ datum, eventsForDay }) {
   const trainingen = eventsForDay("training", datum);
