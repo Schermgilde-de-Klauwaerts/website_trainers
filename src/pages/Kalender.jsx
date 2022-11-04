@@ -18,8 +18,9 @@ import { useTrainingen } from "../contexts/TrainingenProvider";
 import { useWedstrijden } from "../contexts/WedstrijdenProvider";
 
 export default function Kalender() {
-  const { trainingen, error, loading, createTraining } = useTrainingen();
-  const { wedstrijden, createWedstrijd } = useWedstrijden();
+  const { trainingen, error, loading, createTraining, deleteTraining } =
+    useTrainingen();
+  const { wedstrijden, createWedstrijd, deleteWedstrijd } = useWedstrijden();
 
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
@@ -60,6 +61,19 @@ export default function Kalender() {
       }
     },
     [createTraining, createWedstrijd, kampen]
+  );
+
+  const handleDelete = useCallback(
+    async (type, idToDelete) => {
+      if (type === "training") {
+        await deleteTraining(idToDelete);
+      } else if (type === "wedstrijd") {
+        await deleteWedstrijd(idToDelete);
+      } else if (type === "kamp") {
+        setKampen([...kampen, idToDelete]);
+      }
+    },
+    [deleteTraining, deleteWedstrijd, kampen]
   );
 
   const verlaagMaand = useCallback(() => {
@@ -125,6 +139,7 @@ export default function Kalender() {
             dagen={DAGEN}
             aantalDagenPerMaand={AANTALDAGENPERMAAND}
             eventsForDay={getEventsByDay}
+            handleDelete={handleDelete}
           />
         ) : null}
       </div>
