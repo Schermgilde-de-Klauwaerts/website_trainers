@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 
 import Navigation from "../components/Navigation";
 import Maand from "../components/kalender/Maand";
 import Modal from "../components/modals/Modal";
-import EditModal from "../components/modals/EditModal";
+// import EditModal from "../components/modals/EditModal";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 
@@ -15,39 +15,36 @@ import TRAINERS from "../api/mocks/mock_trainers";
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 import { useTrainingen } from "../contexts/TrainingenProvider";
+import { useWedstrijden } from "../contexts/WedstrijdenProvider";
 
 export default function Kalender() {
   const { trainingen, error, loading, createTraining } = useTrainingen();
+  const { wedstrijden, createWedstrijd } = useWedstrijden();
 
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
 
-  const [wedstrijden, setWedstrijden] = useState([]);
   const [kampen, setKampen] = useState([]);
 
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const getEventsByDay = useCallback(
     (type, day) => {
-      try {
-        let data = [];
-        if (type === "training") {
-          data = trainingen.filter((training) => {
-            return day === training.datum;
-          });
-        } else if (type === "wedstrijd") {
-          data = wedstrijden.filter((training) => {
-            return day === training.datum;
-          });
-        } else if (type === "kamp") {
-          data = kampen.filter((training) => {
-            return day === training.datum;
-          });
-        }
-        return data;
-      } catch (error) {
-        console.error(error);
+      let data = [];
+      if (type === "training") {
+        data = trainingen.filter((training) => {
+          return day === training.datum;
+        });
+      } else if (type === "wedstrijd") {
+        data = wedstrijden.filter((wedstrijd) => {
+          return day === wedstrijd.datum;
+        });
+      } else if (type === "kamp") {
+        data = kampen.filter((kamp) => {
+          return day === kamp.datum;
+        });
       }
+      return data;
     },
     [trainingen, kampen, wedstrijden]
   );
@@ -57,12 +54,12 @@ export default function Kalender() {
       if (type === "training") {
         await createTraining(event);
       } else if (type === "wedstrijd") {
-        setWedstrijden([...wedstrijden, event]);
+        await createWedstrijd(event);
       } else if (type === "kamp") {
         setKampen([...kampen, event]);
       }
     },
-    [createTraining, wedstrijden, kampen]
+    [createTraining, createWedstrijd, kampen]
   );
 
   const verlaagMaand = useCallback(() => {
@@ -121,7 +118,10 @@ export default function Kalender() {
       <div>
         <Loader loading={loading} />
         <Error error={error} />
-        {!loading && !error && trainingen.length !== 0 ? (
+        {!loading &&
+        !error &&
+        trainingen.length !== 0 &&
+        wedstrijden.length !== 0 ? (
           <Maand
             maand={maand}
             jaar={jaar}
@@ -129,6 +129,7 @@ export default function Kalender() {
             aantalDagenPerMaand={AANTALDAGENPERMAAND}
             eventsForDay={getEventsByDay}
             trainingen={trainingen}
+            wedstrijden={wedstrijden}
           />
         ) : null}
       </div>

@@ -22,7 +22,7 @@ export const WedstrijdenProvider = ({ children }) => {
       setError();
       setLoading(true);
       const data = await wedstrijdenApi.getAll();
-      setWedstrijden(data.data);
+      setWedstrijden(data);
     } catch (error) {
       setError(error);
     } finally {
