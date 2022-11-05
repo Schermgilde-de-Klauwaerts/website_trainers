@@ -89,6 +89,7 @@ export default function Kalender() {
 
   const handleDelete = useCallback(
     async (type, idToDelete) => {
+      console.log(type, idToDelete);
       if (type === "training") {
         await deleteTraining(idToDelete);
       } else if (type === "wedstrijd") {
@@ -102,7 +103,6 @@ export default function Kalender() {
 
   const setEventToUpdate = useCallback(
     (type, id) => {
-      console.log(type, id);
       if (type === "training") {
         const event = id === null ? {} : trainingen.find((t) => t.id === id);
         setCurrentEvent({ type: "training", ...event });

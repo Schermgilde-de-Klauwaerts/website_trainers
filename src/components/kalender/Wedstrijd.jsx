@@ -5,7 +5,7 @@ export default function Wedstrijd({ data, onDelete, onUpdate }) {
   const handleDelete = useCallback(
     (event) => {
       event.preventDefault();
-      onDelete(data.id);
+      onDelete("wedstrijd", data.id);
     },
     [data.id, onDelete]
   );

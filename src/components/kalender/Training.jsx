@@ -5,7 +5,7 @@ export default function Training({ data, onDelete, onUpdate }) {
   const handleDelete = useCallback(
     (event) => {
       event.preventDefault();
-      onDelete(data.id);
+      onDelete("training", data.id);
     },
     [data.id, onDelete]
   );
