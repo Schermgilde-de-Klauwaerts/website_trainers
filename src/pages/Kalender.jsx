@@ -12,7 +12,11 @@ import DAGEN from "../api/mocks/mock_dagen";
 import AANTALDAGENPERMAAND from "../api/mocks/mock_aantal_dagen_per_maand";
 import TRAINERS from "../api/mocks/mock_trainers";
 
-import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
+import {
+  AiFillCaretLeft,
+  AiFillCaretRight,
+  AiFillPlusCircle,
+} from "react-icons/ai";
 
 import { useTrainingen } from "../contexts/TrainingenProvider";
 import { useWedstrijden } from "../contexts/WedstrijdenProvider";
@@ -147,12 +151,13 @@ export default function Kalender() {
         </button>
       </div>
 
-      <div className="text-center mb-4">
+      <div className="flex flex-row justify-center mb-4">
         <button
-          className="border-2 border-black px-2 py-1"
+          className="flex flex-row border-2 border-black px-2 py-1"
           onClick={() => setIsOpenModal(true)}
         >
-          Voeg een training, wedstrijd of kamp toe
+          <AiFillPlusCircle className="text-3xl mx-2 my-auto" />{" "}
+          <p className="my-auto">training, wedstrijd of kamp</p>
         </button>
         <Modal
           open={isOpenModal}
