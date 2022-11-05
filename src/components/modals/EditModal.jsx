@@ -100,7 +100,7 @@ export default function EditModal({
             // disabled={imageUploaden}
             className="disabled:opacity-50 col-span-2 border-2 border-green-500 bg-green-500 text-white py-1 px-3 mb-4 h-12"
           >
-            TOEVOEGEN
+            AANPASSEN
           </button>
           <button
             type="reset"

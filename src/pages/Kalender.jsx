@@ -89,7 +89,6 @@ export default function Kalender() {
 
   const handleDelete = useCallback(
     async (type, idToDelete) => {
-      console.log(type, idToDelete);
       if (type === "training") {
         await deleteTraining(idToDelete);
       } else if (type === "wedstrijd") {
