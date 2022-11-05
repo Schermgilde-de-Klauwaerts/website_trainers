@@ -7,11 +7,14 @@ import {
   useMemo,
 } from "react";
 import * as trainingenApi from "../api/trainingen";
+import { useSession } from "./AuthProvider";
 
 export const TrainingenContext = createContext();
 export const useTrainingen = () => useContext(TrainingenContext);
 
 export const TrainingenProvider = ({ children }) => {
+  const { ready: authReady } = useSession();
+
   const [initialLoad, setInitialLoad] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -31,11 +34,10 @@ export const TrainingenProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!initialLoad) {
+    if (authReady && !initialLoad) {
       refreshTrainingen();
-      setInitialLoad(true);
     }
-  }, [initialLoad, refreshTrainingen]);
+  }, [authReady, initialLoad, refreshTrainingen]);
 
   const createTraining = useCallback(
     async ({ datum, dag, trainer, startuur, einduur, notities }) => {

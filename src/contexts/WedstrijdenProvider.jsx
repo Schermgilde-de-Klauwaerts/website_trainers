@@ -7,11 +7,14 @@ import {
   useMemo,
 } from "react";
 import * as wedstrijdenApi from "../api/wedstrijden";
+import { useSession } from "./AuthProvider";
 
 export const WedstrijdenContext = createContext();
 export const useWedstrijden = () => useContext(WedstrijdenContext);
 
 export const WedstrijdenProvider = ({ children }) => {
+  const { ready: authReady } = useSession();
+
   const [initialLoad, setInitialLoad] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
@@ -31,11 +34,10 @@ export const WedstrijdenProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (!initialLoad) {
+    if (authReady && !initialLoad) {
       refreshWedstrijden();
-      setInitialLoad(true);
     }
-  }, [initialLoad, refreshWedstrijden]);
+  }, [authReady, initialLoad, refreshWedstrijden]);
 
   const createWedstrijd = useCallback(
     async ({ datum, dag, naam, locatie, trainer, functie, notities }) => {

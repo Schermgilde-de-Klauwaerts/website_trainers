@@ -1,37 +1,38 @@
-// import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-// import { useLogin, useSession } from "../contexts/AuthProvider";
+import { useLogin, useSession } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 
 export default function Login() {
-  // const navigate = useNavigate();
-  // const { loading, error } = useSession();
-  // const isAuthed = false;
-  // const login = useLogin();
-  // const login = true;
-  // const methods = useForm();
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   formState: { errors },
-  // } = methods;
+  const navigate = useNavigate();
+  const { loading, error, isAuthed } = useSession();
+  const login = useLogin();
+  const methods = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = methods;
 
-  // useEffect(() => {
-  //   if (isAuthed) {
-  //     navigate("/kalender", { replace: true });
-  //   }
-  // }, [isAuthed, navigate]);
+  useEffect(() => {
+    if (isAuthed) {
+      navigate("/kalender", { replace: true });
+    }
+  }, [isAuthed, navigate]);
 
-  // const onSubmit = useCallback(
-  //   async (data) => {
-  //     const succes = await login(String(data.email), String(data.password));
-  //     if (succes) {
-  //       navigate("/shop", { replace: true });
-  //     }
-  //   },
-  //   [login, navigate]
-  // );
+  const onSubmit = useCallback(
+    async (data) => {
+      const succes = await login(
+        String(data.gebruikersnaam),
+        String(data.password)
+      );
+      if (succes) {
+        navigate("/kalender", { replace: true });
+      }
+    },
+    [login, navigate]
+  );
 
   return (
     <div className="mx-auto bg-white h-screen w-screen">
@@ -40,11 +41,11 @@ export default function Login() {
       </h1>
       <form
         className="w-11/12 md:w-8/12 lg:w-1/4 mx-auto grid grid-cols-1 border-t-2 border-gray-600 pt-8"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {/* {error ? (
+        {error ? (
           <p className="text-red-500 mb-2">{JSON.stringify(error)}</p>
-        ) : null} */}
+        ) : null}
         <label
           htmlFor="gebruikersnaam"
           type="text"
@@ -55,17 +56,19 @@ export default function Login() {
         <input
           type="text"
           placeholder="Gebruikersnaam"
-          // {...register("gebruikersnaam", { required: "gebruikersnaam is verplicht" })}
+          {...register("gebruikersnaam", {
+            required: "gebruikersnaam is verplicht",
+          })}
           className="border-2 border-gray-600 mb-2 h-12 pl-2"
           data-cy="login_gebruikersnaam_input"
         />
-        {/* <ErrorMessage
-          // errors={errors}
+        <ErrorMessage
+          errors={errors}
           name="gebruikersnaam"
           render={({ message }) => (
             <p className="text-red-500 mb-2">{message}</p>
           )}
-        /> */}
+        />
         <label
           htmlFor="password"
           className="text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
@@ -75,19 +78,17 @@ export default function Login() {
         <input
           type="password"
           placeholder="Wachtwoord"
-          // {...register("password", { required: "Wachtwoord is verplicht" })}
+          {...register("password", { required: "Wachtwoord is verplicht" })}
           className="border-2 border-gray-600 mb-2 h-12 pl-2"
           data-cy="login_password_input"
         />
-
-        {/* <ErrorMessage
-          // errors={errors}
+        <ErrorMessage
+          errors={errors}
           name="password"
           render={({ message }) => (
             <p className="text-red-500 mb-2">{message}</p>
           )}
-        /> */}
-
+        />
         <button
           type="submit"
           // disabled={loading}
