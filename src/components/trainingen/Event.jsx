@@ -1,8 +1,13 @@
-function Training({ soort, datum, startuur, einduur }) {
+function Training({ data }) {
+  const { datum, startuur, einduur, notities } = data;
+  const dag = datum.split("-")[2];
+  const maand = datum.split("-")[1];
+  const jaar = datum.split("-")[0];
+
   return (
-    <div className="border bg-slate-100 my-2 p-2">
+    <div className="border bg-slate-100 my-2 py-2 px-4">
       <p className="">
-        {soort}: {datum}
+        Training: {dag}/{maand}/{jaar}
       </p>
       <p className="italic">
         {startuur} - {einduur}
@@ -11,27 +16,23 @@ function Training({ soort, datum, startuur, einduur }) {
   );
 }
 
-function Wedstrijd({ soort, notities }) {
+function Wedstrijd({ data }) {
+  const { naam, functie, notities } = data;
   return (
-    <div className="border bg-slate-100 my-2 p-2">
-      <p className="">{soort}:</p>
-      <p className="italic">{notities}</p>
+    <div className="border bg-slate-100 my-2 py-2 px-4">
+      <p className="">Wedstrijd: {naam}</p>
+      <p className="italic">{functie}</p>
     </div>
   );
 }
 
-const Event = ({ soort, datum, startuur, einduur, notities }) => {
+const Event = ({ ...props }) => {
   return (
     <>
-      {soort === "Training" ? (
-        <Training
-          soort={soort}
-          datum={datum}
-          startuur={startuur}
-          einduur={einduur}
-        />
+      {props.hasOwnProperty("startuur") ? (
+        <Training data={props} />
       ) : (
-        <Wedstrijd soort={soort} notities={notities} />
+        <Wedstrijd data={props} />
       )}
     </>
   );

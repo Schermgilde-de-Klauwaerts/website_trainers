@@ -1,7 +1,7 @@
 import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
 
-export default function TrainingForm({ register, trainers, errors }) {
+export default function TrainingForm({ register, trainers, errors, event }) {
   return (
     <>
       <label
@@ -15,6 +15,7 @@ export default function TrainingForm({ register, trainers, errors }) {
         id="trainer"
         {...register("trainer")}
         className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+        defaultValue={event?.trainer}
       >
         <option value=""> -- Selecteer een trainer -- </option>
         {trainers.map((trainer) => (
@@ -35,6 +36,7 @@ export default function TrainingForm({ register, trainers, errors }) {
         name="datum"
         {...register("datum", { required: "Datum is verplicht" })}
         className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+        defaultValue={event?.datum}
       ></input>
       <ErrorMessage
         errors={errors}
@@ -61,6 +63,7 @@ export default function TrainingForm({ register, trainers, errors }) {
         name="startuur"
         {...register("startuur")}
         className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2 mr-2"
+        defaultValue={event?.startuur}
       ></input>
       <input
         type="time"
@@ -68,6 +71,7 @@ export default function TrainingForm({ register, trainers, errors }) {
         name="einduur"
         {...register("einduur")}
         className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+        defaultValue={event?.einduur}
       ></input>
       <label
         htmlFor="notities"
@@ -82,6 +86,7 @@ export default function TrainingForm({ register, trainers, errors }) {
         // disabled={imageUploaden}
         {...register("notities")}
         className="col-span-6 border-2 border-gray-600 mb-2 h-12 pl-2"
+        defaultValue={event?.notities}
       />
     </>
   );

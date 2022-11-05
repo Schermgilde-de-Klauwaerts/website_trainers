@@ -104,15 +104,14 @@ export default function Kalender() {
     (type, id) => {
       console.log(type, id);
       if (type === "training") {
-        const event =
-          id === null ? {} : trainingen.find((training) => training.id === id);
-        setCurrentEvent(event);
-        setCurrentEvent(event);
+        const event = id === null ? {} : trainingen.find((t) => t.id === id);
+        setCurrentEvent({ type: "training", ...event });
+        setCurrentEvent({ type: "training", ...event });
         setIsOpenEditModal(true);
       } else if (type === "wedstrijd") {
         const event = id === null ? {} : wedstrijden.find((w) => w.id === id);
-        setCurrentEvent(event);
-        setCurrentEvent(event);
+        setCurrentEvent({ type: "wedstrijd", ...event });
+        setCurrentEvent({ type: "wedstrijd", ...event });
         setIsOpenEditModal(true);
       } else if (type === "kamp") {
         setCurrentEvent(id === null ? {} : kampen.find((k) => k.id === id));

@@ -1,78 +1,87 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 import Navigation from "../components/Navigation";
 import EventList from "../components/trainingen/EventList";
 
 import TRAINERS from "../api/mocks/mock_trainers";
 import MAANDEN from "../api/mocks/mock_maanden";
-import { useCallback } from "react";
-import { useEffect } from "react";
 
-import * as trainingenApi from "../api/trainingen";
+import { useTrainingen } from "../contexts/TrainingenProvider";
+import { useWedstrijden } from "../contexts/WedstrijdenProvider";
+import Loader from "../components/Loader";
+import Error from "../components/Error";
+
+import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 export default function Overzicht() {
-  const [trainingen, setTrainingen] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { trainingen, error, loading } = useTrainingen();
+  const { wedstrijden } = useWedstrijden();
 
-  const [maand, setMaand] = useState(MAANDEN[new Date().getMonth()]);
+  const [maand, setMaand] = useState(new Date().getMonth());
+  const [jaar, setJaar] = useState(new Date().getFullYear());
 
-  const refreshTrainingen = useCallback(async () => {
-    try {
-      setLoading(true);
-      const data = await trainingenApi.getAll();
-      setTrainingen(data);
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const getEvents = useCallback(() => {
+    let data = [];
+    data = trainingen.filter((training) => {
+      return (
+        maand === new Date(training.datum).getMonth() &&
+        jaar === new Date(training.datum).getFullYear()
+      );
+    });
+    data = data.concat(
+      wedstrijden.filter((wedstrijd) => {
+        return (
+          maand === new Date(wedstrijd.datum).getMonth() &&
+          jaar === new Date(wedstrijd.datum).getFullYear()
+        );
+      })
+    );
+    return data;
+  }, [trainingen, wedstrijden, maand, jaar]);
 
-  useEffect(() => {
-    refreshTrainingen();
-  }, [refreshTrainingen]);
+  const verlaagMaand = useCallback(() => {
+    setJaar(maand === 0 ? jaar - 1 : jaar);
+    setMaand(maand === 0 ? 11 : maand - 1);
+  }, [maand, jaar]);
 
-  const handleMaandChange = (e) => {
-    setMaand(e.target.value);
-  };
+  const verhoogMaand = useCallback(() => {
+    setJaar(maand === 11 ? jaar + 1 : jaar);
+    setMaand((maand + 1) % 12);
+  }, [maand, jaar]);
 
   return (
     <div className="App">
       <h1 className="text-3xl font-bold my-2 ml-10">Overzicht</h1>
       <Navigation />
 
-      <div className="mx-10 mb-4">
-        <label htmlFor="maand" className="text-2xl font-bold mr-2">
-          Maand:
-        </label>
-        <select
-          name="maand"
-          id="maand"
-          defaultValue={maand}
-          onChange={handleMaandChange}
-        >
-          <option value="Januari">Januari</option>
-          <option value="Februari">Februari</option>
-          <option value="Maart">Maart</option>
-          <option value="April">April</option>
-          <option value="Mei">Mei</option>
-          <option value="Juni">Juni</option>
-          <option value="Juli">Juli</option>
-          <option value="Augustus">Augustus</option>
-          <option value="September">September</option>
-          <option value="Oktober">Oktober</option>
-          <option value="November">November</option>
-          <option value="December">December</option>
-        </select>
+      <h1 className="text-3xl text-center font-bold w-48 mx-auto">{jaar}</h1>
+      <div className="flex flex-row justify-center mb-4">
+        <button className="text-3xl mx-4" onClick={verlaagMaand}>
+          <AiFillCaretLeft />
+        </button>
+        <h1 className="text-3xl text-center font-bold w-48">
+          {MAANDEN[maand]}
+        </h1>
+        <button className="text-3xl mx-4" onClick={verhoogMaand}>
+          <AiFillCaretRight />
+        </button>
       </div>
 
-      <EventList
-        events={trainingen}
-        trainers={TRAINERS}
-        maand={MAANDEN.indexOf(maand) + 1}
-      />
+      <div>
+        <Loader loading={loading} />
+        <Error error={error} />
+        {!loading &&
+        !error &&
+        trainingen.length !== 0 &&
+        wedstrijden.length !== 0 ? (
+          <EventList
+            events={getEvents()}
+            trainers={TRAINERS}
+            maand={maand + 1}
+            jaar={jaar}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }

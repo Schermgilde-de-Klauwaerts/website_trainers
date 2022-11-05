@@ -3,6 +3,8 @@ import ReactDom from "react-dom";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import TrainingForm from "../forms/TrainingForm";
+import WedstrijdForm from "../forms/WedstrijdForm";
 
 const MODAL_STYLES = {
   position: "fixed",
@@ -50,10 +52,6 @@ export default function EditModal({
   } = methods;
 
   const [message, setMessage] = useState();
-  const [trainer, setTrainer] = useState(event.trainer);
-  const [startuur, setStartuur] = useState(event.startuur);
-  const [einduur, setEinduur] = useState(event.einduur);
-  const [notities, setNotities] = useState(event.notities);
 
   const onSubmit = useCallback(
     async (data) => {
@@ -66,10 +64,10 @@ export default function EditModal({
         datum.split("-")[2]
       );
       const dag = WEEKDAY[datumObject.getDay("nl-BE")];
-      updateEvent(data.type.toLowerCase(), { id, dag, ...data });
+      updateEvent(event.type.toLowerCase(), { id, dag, ...data });
       onClose();
     },
-    [updateEvent, onClose, event.id]
+    [updateEvent, onClose, event.id, event.type]
   );
 
   if (!open) return null;
@@ -82,81 +80,27 @@ export default function EditModal({
           {message && (
             <span className="col-span-6 text-gray-600 mb-2">{message}</span>
           )}
-          <label
-            htmlFor="trainer"
-            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-          >
-            TRAINER
-          </label>
-          <select
-            name="trainer"
-            id="trainer"
-            defaultValue={trainer}
-            onChange={(e) => setTrainer(e.target.value)}
-            {...register("trainer")}
-            className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
-          >
-            {trainers.map((trainer) => (
-              <option key={trainer} value={trainer}>
-                {trainer}
-              </option>
-            ))}
-          </select>
-          <label
-            htmlFor="startuur"
-            className="col-span-3 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
-          >
-            STARTUUR
-          </label>
-          <label
-            htmlFor="einduur"
-            className="col-span-3 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
-          >
-            EINDUUR
-          </label>
-          <input
-            type="time"
-            id="startuur"
-            name="startuur"
-            defaultValue={startuur}
-            onChange={(e) => setStartuur(e.target.value)}
-            {...register("startuur")}
-            className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2 mr-2"
-            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
-          ></input>
-          <input
-            type="time"
-            id="einduur"
-            name="einduur"
-            defaultValue={einduur}
-            onChange={(e) => setEinduur(e.target.value)}
-            {...register("einduur")}
-            className="col-span-3 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
-            hidden={event.soort === "Wedstrijd" ? "hidden" : ""}
-          ></input>
-          <label
-            htmlFor="notities"
-            className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-          >
-            NOTITIES
-          </label>
-          <input
-            type="text"
-            id="notities"
-            defaultValue={notities}
-            onChange={(e) => setNotities(e.target.value)}
-            // disabled={imageUploaden}
-            {...register("notities")}
-            className="col-span-6 border-2 border-gray-600 mb-2 h-12 pl-2"
-          />
+          {event.type === "training" ? (
+            <TrainingForm
+              trainers={trainers}
+              errors={errors}
+              register={register}
+              event={event}
+            />
+          ) : (
+            <WedstrijdForm
+              trainers={trainers}
+              errors={errors}
+              register={register}
+              event={event}
+            />
+          )}
           <button
             type="submit"
             // disabled={imageUploaden}
             className="disabled:opacity-50 col-span-2 border-2 border-green-500 bg-green-500 text-white py-1 px-3 mb-4 h-12"
           >
-            BEWERK
+            TOEVOEGEN
           </button>
           <button
             type="reset"
