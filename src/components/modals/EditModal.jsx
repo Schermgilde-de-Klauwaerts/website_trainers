@@ -1,8 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import TrainingForm from "../forms/TrainingForm";
 import WedstrijdForm from "../forms/WedstrijdForm";
 

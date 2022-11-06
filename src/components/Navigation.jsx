@@ -1,7 +1,7 @@
 import React from "react";
 import { useCallback } from "react";
 import { Link } from "react-router-dom";
-import { useLogout, useSession } from "../contexts/AuthProvider";
+import { useLogout } from "../contexts/AuthProvider";
 
 export default function Navigation() {
   const logout = useLogout();

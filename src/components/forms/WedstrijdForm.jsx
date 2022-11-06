@@ -1,6 +1,5 @@
 import { ErrorMessage } from "@hookform/error-message";
 import React from "react";
-import { useState } from "react";
 
 export default function WedstrijdForm({ register, trainers, errors, event }) {
   return (

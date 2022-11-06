@@ -45,7 +45,6 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
     formState: { errors },
   } = methods;
 
-  const [message, setMessage] = useState();
   const [type, setType] = useState("Training");
 
   const onSubmit = useCallback(
@@ -78,9 +77,6 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-6">
-          {message && (
-            <span className="col-span-6 text-gray-600 mb-2">{message}</span>
-          )}
           <label
             htmlFor="type"
             className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
