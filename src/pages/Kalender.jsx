@@ -20,6 +20,8 @@ import {
 
 import { useTrainingen } from "../contexts/TrainingenProvider";
 import { useWedstrijden } from "../contexts/WedstrijdenProvider";
+import { useLogout, useSession } from "../contexts/AuthProvider";
+import { Link } from "react-router-dom";
 
 export default function Kalender() {
   const {
@@ -32,6 +34,8 @@ export default function Kalender() {
   } = useTrainingen();
   const { wedstrijden, createWedstrijd, deleteWedstrijd, updateWedstrijd } =
     useWedstrijden();
+  const { hasAdminRole } = useSession();
+  const logout = useLogout();
 
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
@@ -133,12 +137,30 @@ export default function Kalender() {
     setMaand((maand + 1) % 12);
   }, [maand, jaar]);
 
+  const handleLogout = useCallback(() => {
+    logout();
+  }, [logout]);
+
   return (
     <div>
-      <h1 className="text-3xl font-bold my-2 ml-10">Kalender</h1>
-      <Navigation />
+      {hasAdminRole() ? (
+        <>
+          <h1 className="text-3xl font-bold my-2 ml-10">Kalender</h1>
+          <Navigation />
+        </>
+      ) : (
+        <Link
+          className="ml-16 underline border-2 border-black py-1 px-2 "
+          onClick={handleLogout}
+          to="/login"
+        >
+          Logout
+        </Link>
+      )}
 
-      <h1 className="text-3xl text-center font-bold w-48 mx-auto">{jaar}</h1>
+      <h1 className="text-3xl text-center font-bold w-48 mx-auto mt-4">
+        {jaar}
+      </h1>
       <div className="flex flex-row justify-center mb-4">
         <button className="text-3xl mx-4" onClick={verlaagMaand}>
           <AiFillCaretLeft />
@@ -151,23 +173,27 @@ export default function Kalender() {
         </button>
       </div>
 
-      <div className="flex flex-row justify-center mb-4">
-        <button
-          className="flex flex-row border-2 border-black px-2 py-1"
-          onClick={() => setIsOpenModal(true)}
-        >
-          <AiFillPlusCircle className="text-3xl mx-2 my-auto" />{" "}
-          <p className="my-auto">training, wedstrijd of kamp</p>
-        </button>
-        <Modal
-          open={isOpenModal}
-          onClose={() => setIsOpenModal(false)}
-          trainers={TRAINERS}
-          addEvent={addEvent}
-        ></Modal>
-      </div>
+      {hasAdminRole() ? (
+        <div className="flex flex-row justify-center mb-4">
+          <button
+            className="flex flex-row border-2 border-black px-2 py-1"
+            onClick={() => setIsOpenModal(true)}
+          >
+            <AiFillPlusCircle className="text-3xl mx-2 my-auto" />{" "}
+            <p className="my-auto">training, wedstrijd of kamp</p>
+          </button>
+          <Modal
+            open={isOpenModal}
+            onClose={() => setIsOpenModal(false)}
+            trainers={TRAINERS}
+            addEvent={addEvent}
+          ></Modal>
+        </div>
+      ) : null}
 
-      {isOpenEditModal && JSON.stringify(currentEvent) !== "{}" ? (
+      {hasAdminRole() &&
+      isOpenEditModal &&
+      JSON.stringify(currentEvent) !== "{}" ? (
         <EditModal
           open={isOpenEditModal}
           onClose={() => setIsOpenEditModal(false)}

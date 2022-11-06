@@ -1,7 +1,9 @@
 import React, { useCallback } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { useSession } from "../../contexts/AuthProvider";
 
 export default function Training({ data, onDelete, onUpdate }) {
+  const { hasAdminRole } = useSession();
   const handleDelete = useCallback(
     (event) => {
       event.preventDefault();
@@ -18,15 +20,19 @@ export default function Training({ data, onDelete, onUpdate }) {
   );
   if (!data.trainer && !data.startuur && !data.einduur) {
     return (
-      <div className="border-2 border-red-600 bg-red-600 text-white text-center">
-        <p>Training</p>
+      <div className=" flex border-2 border-red-600 bg-red-600 text-white text-center">
+        <div className="ml-2">Training</div>
 
-        <button className="my-auto ml-auto mr-2" onClick={handleUpdate}>
-          <AiFillEdit className="my-auto" />
-        </button>
-        <button className="my-auto mr-2" onClick={handleDelete}>
-          <AiFillDelete className="my-auto" />
-        </button>
+        {hasAdminRole() ? (
+          <>
+            <button className="my-auto ml-auto mr-2" onClick={handleUpdate}>
+              <AiFillEdit className="my-auto" />
+            </button>
+            <button className="my-auto mr-2" onClick={handleDelete}>
+              <AiFillDelete className="my-auto" />
+            </button>
+          </>
+        ) : null}
       </div>
     );
   }
@@ -48,12 +54,17 @@ export default function Training({ data, onDelete, onUpdate }) {
           <p>{data.einduur || null}</p>
         </div>
       )}
-      <button className="my-auto ml-auto mr-2" onClick={handleUpdate}>
-        <AiFillEdit className="my-auto" />
-      </button>
-      <button className="my-auto mr-2" onClick={handleDelete}>
-        <AiFillDelete className="my-auto" />
-      </button>
+      {hasAdminRole() ? (
+        <>
+          {" "}
+          <button className="my-auto ml-auto mr-2" onClick={handleUpdate}>
+            <AiFillEdit className="my-auto" />
+          </button>
+          <button className="my-auto mr-2" onClick={handleDelete}>
+            <AiFillDelete className="my-auto" />
+          </button>
+        </>
+      ) : null}
     </div>
   );
 }

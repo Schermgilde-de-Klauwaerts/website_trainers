@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useLogout, useSession } from "../contexts/AuthProvider";
 
 export default function Navigation() {
-  const { user, hasAdminRole } = useSession();
   const logout = useLogout();
 
   const handleLogout = useCallback(() => {
@@ -21,9 +20,6 @@ export default function Navigation() {
         </li>
         <li>
           <Link to="/documenten">Documenten</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
         </li>
         <li>
           <Link onClick={handleLogout} to="/login">
