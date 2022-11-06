@@ -23,7 +23,7 @@ const EventList = ({ events, trainers, maand, jaar }) => {
         .sort((a, b) => a.localeCompare(b))
         .map((trainer) => (
           <div key={trainer} className="mx-10">
-            <div className="font-bold mb-2">{trainer}</div>
+            <div className="font-bold mb-3 text-center border-b border-green-600 pb-1">{trainer}</div>
             {events
               .filter((e) => e.trainer === trainer)
               .map((e) => (

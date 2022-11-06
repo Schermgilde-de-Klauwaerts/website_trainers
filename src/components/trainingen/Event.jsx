@@ -1,5 +1,5 @@
 function Training({ data }) {
-  const { datum, startuur, einduur, notities } = data;
+  const { datum, startuur, einduur } = data;
   const dag = datum.split("-")[2];
   const maand = datum.split("-")[1];
   const jaar = datum.split("-")[0];
@@ -17,10 +17,12 @@ function Training({ data }) {
 }
 
 function Wedstrijd({ data }) {
-  const { naam, functie, notities } = data;
+  const { naam, functie, locatie } = data;
   return (
     <div className="border bg-slate-100 my-2 py-2 px-4">
-      <p className="">Wedstrijd: {naam}</p>
+      <p className="">
+        {naam} ({locatie})
+      </p>
       <p className="italic">{functie}</p>
     </div>
   );
