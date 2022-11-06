@@ -50,9 +50,13 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
 
   const onSubmit = useCallback(
     async (data) => {
-      if (data.functie) {
-        const { functie } = data;
-        data.functie = functie[0];
+      data["functie"] = null;
+      if (data.functie1 && data.functie2) {
+        data.functie = data.functie1;
+      } else if (!data.functie1 && data.functie2) {
+        data.functie = data.functie2;
+      } else if (data.functie1 && !data.functie2) {
+        data.functie = data.functie1;
       }
       const { datum } = data;
       const datumObject = new Date(

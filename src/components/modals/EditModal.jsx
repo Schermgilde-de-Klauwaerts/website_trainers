@@ -53,8 +53,15 @@ export default function EditModal({
 
   const onSubmit = useCallback(
     async (data) => {
-      console.log(data);
       const id = event.id;
+      data["functie"] = null;
+      if (data.functie1 && data.functie2) {
+        data.functie = data.functie1;
+      } else if (!data.functie1 && data.functie2) {
+        data.functie = data.functie2;
+      } else if (data.functie1 && !data.functie2) {
+        data.functie = data.functie1;
+      }
       const { datum } = data;
       const datumObject = new Date(
         datum.split("-")[0],
@@ -62,7 +69,11 @@ export default function EditModal({
         datum.split("-")[2]
       );
       const dag = WEEKDAY[datumObject.getDay("nl-BE")];
-      updateEvent(event.type.toLowerCase(), { id, dag, ...data });
+      updateEvent(event.type.toLowerCase(), {
+        id,
+        dag,
+        ...data,
+      });
       onClose();
     },
     [updateEvent, onClose, event.id, event.type]
@@ -92,14 +103,12 @@ export default function EditModal({
           )}
           <button
             type="submit"
-            // disabled={imageUploaden}
             className="disabled:opacity-50 col-span-2 border-2 border-green-500 bg-green-500 text-white py-1 px-3 mb-4 h-12"
           >
             AANPASSEN
           </button>
           <button
             type="reset"
-            // disabled={imageUploaden}
             className="disabled:opacity-50 col-span-2 border-2 border-orange-500 bg-orange-500 text-white py-1 px-3 mb-4 ml-2 h-12"
             onClick={() => reset()}
           >
