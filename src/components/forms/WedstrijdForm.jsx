@@ -103,7 +103,7 @@ export default function WedstrijdForm({ register, trainers, errors, event }) {
             name="functie"
             value="coach"
             {...register("functie")}
-            checked={event?.functie === "coach" ? true : false}
+            defaultChecked={event?.functie === "coach" ? true : false}
           />
           <label className="ml-2" htmlFor="functie1">
             Coach
@@ -116,7 +116,7 @@ export default function WedstrijdForm({ register, trainers, errors, event }) {
             name="functie"
             value="scheidsrechter"
             {...register("functie")}
-            checked={event?.functie === "scheidsrechter" ? true : false}
+            defaultChecked={event?.functie === "scheidsrechter" ? true : false}
           />
           <label className="ml-2" htmlFor="functie2">
             Scheidsrechter
