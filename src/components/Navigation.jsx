@@ -1,7 +1,15 @@
 import React from "react";
+import { useCallback } from "react";
 import { Link } from "react-router-dom";
+import { useLogout, useSession } from "../contexts/AuthProvider";
 
 export default function Navigation() {
+  const { user, hasAdminRole } = useSession();
+  const logout = useLogout();
+
+  const handleLogout = useCallback(() => {
+    logout();
+  }, [logout]);
   return (
     <div className="ml-16 mb-4">
       <ul className="list-disc">
@@ -16,6 +24,11 @@ export default function Navigation() {
         </li>
         <li>
           <Link to="/login">Login</Link>
+        </li>
+        <li>
+          <Link onClick={handleLogout} to="/login">
+            Logout
+          </Link>
         </li>
       </ul>
     </div>
