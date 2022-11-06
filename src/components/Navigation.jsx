@@ -21,11 +21,12 @@ export default function Navigation() {
         <li>
           <Link to="/documenten">Documenten</Link>
         </li>
-        <li>
+
+        <button className="mt-2 border-2 border-black py-1 px-2 ">
           <Link onClick={handleLogout} to="/login">
             Logout
           </Link>
-        </li>
+        </button>
       </ul>
     </div>
   );
