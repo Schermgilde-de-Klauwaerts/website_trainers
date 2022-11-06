@@ -5,26 +5,6 @@ export default function TrainingForm({ register, trainers, errors, event }) {
   return (
     <>
       <label
-        htmlFor="trainer"
-        className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
-      >
-        TRAINER
-      </label>
-      <select
-        name="trainer"
-        id="trainer"
-        {...register("trainer")}
-        className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
-        defaultValue={event?.trainer}
-      >
-        <option value=""> -- Selecteer een trainer -- </option>
-        {trainers.map((trainer) => (
-          <option key={trainer} value={trainer}>
-            {trainer}
-          </option>
-        ))}
-      </select>
-      <label
         htmlFor="datum"
         className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
       >
@@ -45,6 +25,26 @@ export default function TrainingForm({ register, trainers, errors, event }) {
           <p className="col-span-6 text-red-500 mb-2">{message}</p>
         )}
       />
+      <label
+        htmlFor="trainer"
+        className="col-span-6 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
+      >
+        TRAINER
+      </label>
+      <select
+        name="trainer"
+        id="trainer"
+        {...register("trainer")}
+        className="col-span-6 border-2 bg-white border-gray-600 mb-2 h-12 pl-2"
+        defaultValue={event?.trainer}
+      >
+        <option value=""> -- Selecteer een trainer -- </option>
+        {trainers.map((trainer) => (
+          <option key={trainer} value={trainer}>
+            {trainer}
+          </option>
+        ))}
+      </select>
       <label
         htmlFor="startuur"
         className="col-span-3 text-gray-600 bg-white border-t-2 border-l-2 border-r-2 border-gray-600 w-min py-1 px-2"
