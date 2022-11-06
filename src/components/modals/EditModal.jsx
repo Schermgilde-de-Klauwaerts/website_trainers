@@ -51,8 +51,6 @@ export default function EditModal({
     formState: { errors },
   } = methods;
 
-  const [message, setMessage] = useState();
-
   const onSubmit = useCallback(
     async (data) => {
       console.log(data);
@@ -77,9 +75,6 @@ export default function EditModal({
       <div style={OVERLAY_STYLES} />
       <div style={MODAL_STYLES}>
         <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-6">
-          {message && (
-            <span className="col-span-6 text-gray-600 mb-2">{message}</span>
-          )}
           {event.type === "training" ? (
             <TrainingForm
               trainers={trainers}

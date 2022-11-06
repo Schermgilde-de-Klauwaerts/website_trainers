@@ -50,6 +50,9 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
 
   const onSubmit = useCallback(
     async (data) => {
+      console.log(data);
+      const { functie } = data;
+      data.functie = functie[0];
       const { datum } = data;
       const datumObject = new Date(
         datum.split("-")[0],
@@ -113,14 +116,12 @@ export default function Modal({ open, onClose, trainers, addEvent }) {
           )}
           <button
             type="submit"
-            // disabled={imageUploaden}
             className="disabled:opacity-50 col-span-2 border-2 border-green-500 bg-green-500 text-white py-1 px-3 mb-4 h-12"
           >
             TOEVOEGEN
           </button>
           <button
             type="reset"
-            // disabled={imageUploaden}
             className="disabled:opacity-50 col-span-2 border-2 border-orange-500 bg-orange-500 text-white py-1 px-3 mb-4 ml-2 h-12"
             onClick={() => reset()}
           >
