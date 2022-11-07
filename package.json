@@ -2,6 +2,7 @@
   "name": "website_trainers",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://jaspervd19.github.io/website_trainers/",
   "dependencies": {
     "@hookform/error-message": "^2.0.0",
     "@testing-library/jest-dom": "^5.16.5",
