@@ -6,7 +6,7 @@ import { useCallback, useEffect } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { loading, error, isAuthed } = useSession();
+  const { error, isAuthed } = useSession();
   const login = useLogin();
   const methods = useForm();
   const {

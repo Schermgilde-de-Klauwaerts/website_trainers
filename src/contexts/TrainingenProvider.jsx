@@ -36,6 +36,7 @@ export const TrainingenProvider = ({ children }) => {
   useEffect(() => {
     if (authReady && !initialLoad) {
       refreshTrainingen();
+      setInitialLoad(true);
     }
   }, [authReady, initialLoad, refreshTrainingen]);
 

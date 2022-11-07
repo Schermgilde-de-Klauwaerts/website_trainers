@@ -36,6 +36,7 @@ export const WedstrijdenProvider = ({ children }) => {
   useEffect(() => {
     if (authReady && !initialLoad) {
       refreshWedstrijden();
+      setInitialLoad(true);
     }
   }, [authReady, initialLoad, refreshWedstrijden]);
 
