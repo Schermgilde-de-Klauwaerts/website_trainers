@@ -6,8 +6,6 @@ export default function Maand({
   dagen,
   aantalDagenPerMaand,
   eventsForDay,
-  handleDelete,
-  handleUpdate,
 }) {
   const calculateFirstDay = () => {
     const date = new Date(jaar, maand, 1);
@@ -37,8 +35,6 @@ export default function Maand({
             maand={maand}
             jaar={jaar}
             eventsForDay={eventsForDay}
-            handleDelete={handleDelete}
-            handleUpdate={handleUpdate}
           />
         ))}
       </div>

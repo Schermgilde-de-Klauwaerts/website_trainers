@@ -1,23 +1,6 @@
-import React, { useCallback } from "react";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { useSession } from "../../contexts/AuthProvider";
+import React from "react";
 
-export default function Wedstrijd({ data, onDelete, onUpdate }) {
-  const { hasAdminRole } = useSession();
-  const handleDelete = useCallback(
-    (event) => {
-      event.preventDefault();
-      onDelete("wedstrijd", data.id);
-    },
-    [data.id, onDelete]
-  );
-  const handleUpdate = useCallback(
-    (event) => {
-      event.preventDefault();
-      onUpdate("wedstrijd", data.id);
-    },
-    [data.id, onUpdate]
-  );
+export default function Wedstrijd({ data }) {
   return (
     <div
       className={
@@ -31,16 +14,6 @@ export default function Wedstrijd({ data, onDelete, onUpdate }) {
         <p className="ml-2">{data.trainer.split(" ")[0]}</p>
       )}
       {!data.functie ? null : <p className="ml-2">({data.functie}) </p>}
-      {hasAdminRole() ? (
-        <>
-          <button className="my-auto ml-auto mr-2" onClick={handleUpdate}>
-            <AiFillEdit className="my-auto" />
-          </button>
-          <button className="my-auto mr-2" onClick={handleDelete}>
-            <AiFillDelete className="my-auto" />
-          </button>
-        </>
-      ) : null}
     </div>
   );
 }

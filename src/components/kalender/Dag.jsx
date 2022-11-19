@@ -3,7 +3,7 @@ import React from "react";
 import Wedstrijd from "./Wedstrijd";
 import Training from "./Training";
 
-function CurrentMonthDay({ datum, eventsForDay, handleDelete, handleUpdate }) {
+function CurrentMonthDay({ datum, eventsForDay }) {
   const trainingen = eventsForDay("training", datum);
   const wedstrijden = eventsForDay("wedstrijd", datum);
   return (
@@ -11,22 +11,12 @@ function CurrentMonthDay({ datum, eventsForDay, handleDelete, handleUpdate }) {
       <div className="mb-1">{datum.split("-")[2]}</div>
       {trainingen.length !== 0
         ? trainingen.map((training, index) => (
-            <Training
-              key={index + 1}
-              data={training}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-            />
+            <Training key={index + 1} data={training} />
           ))
         : null}
       {wedstrijden.length !== 0
         ? wedstrijden.map((wedstrijd, index) => (
-            <Wedstrijd
-              key={index + 1}
-              data={wedstrijd}
-              onDelete={handleDelete}
-              onUpdate={handleUpdate}
-            />
+            <Wedstrijd key={index + 1} data={wedstrijd} />
           ))
         : null}
     </div>
@@ -39,15 +29,7 @@ function PreviousMonthDay() {
   );
 }
 
-export default function Dag({
-  dag,
-  maand,
-  jaar,
-  previousMonth,
-  eventsForDay,
-  handleDelete,
-  handleUpdate,
-}) {
+export default function Dag({ dag, maand, jaar, previousMonth, eventsForDay }) {
   const datum = `${jaar}-${maand + 1 < 10 ? "0" : ""}${maand + 1}-${
     dag < 10 ? "0" : ""
   }${dag}`;
@@ -56,12 +38,7 @@ export default function Dag({
       {previousMonth ? (
         <PreviousMonthDay />
       ) : (
-        <CurrentMonthDay
-          datum={datum}
-          eventsForDay={eventsForDay}
-          handleDelete={handleDelete}
-          handleUpdate={handleUpdate}
-        />
+        <CurrentMonthDay datum={datum} eventsForDay={eventsForDay} />
       )}
     </div>
   );
