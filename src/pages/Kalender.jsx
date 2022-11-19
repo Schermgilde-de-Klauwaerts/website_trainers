@@ -5,39 +5,38 @@ import Maand from "../components/kalender/Maand";
 import MAANDEN from "../api/mocks/mock_maanden";
 import DAGEN from "../api/mocks/mock_dagen";
 import AANTALDAGENPERMAAND from "../api/mocks/mock_aantal_dagen_per_maand";
-import TRAINERS from "../api/mocks/mock_trainers";
+
 import TRAININGEN from "../api/mocks/mock_trainingen";
+import WEDSTRIJDEN from "../api/mocks/mock_wedstrijden";
+import KAMPEN from "../api/mocks/mock_kampen";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 export default function Kalender() {
-  const [trainingen, setTrainingen] = useState([TRAININGEN]);
-  const [wedstrijden, setWedstrijden] = useState([TRAININGEN]);
-  const [kampen, setKampen] = useState([]);
+  console.log(TRAININGEN);
 
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
 
-  const getEventsByDay = useCallback(
-    (type, day) => {
-      let data = [];
-      if (type === "training") {
-        data = trainingen.filter((training) => {
-          return day === training.datum;
-        });
-      } else if (type === "wedstrijd") {
-        data = wedstrijden.filter((wedstrijd) => {
-          return day === wedstrijd.datum;
-        });
-      } else if (type === "kamp") {
-        data = kampen.filter((kamp) => {
-          return day === kamp.datum;
-        });
-      }
-      return data;
-    },
-    [trainingen, kampen, wedstrijden]
-  );
+  const getEventsByDay = (type, day) => {
+    let data = [];
+    if (type === "training") {
+      console.log(TRAININGEN[0]);
+      data = TRAININGEN.filter((training) => {
+        return day === training.datum;
+      });
+    } else if (type === "wedstrijd") {
+      data = WEDSTRIJDEN.filter((wedstrijd) => {
+        return day === wedstrijd.datum;
+      });
+    } else if (type === "kamp") {
+      data = KAMPEN.filter((kamp) => {
+        return day === kamp.datum;
+      });
+    }
+    console.log(data);
+    return data;
+  };
 
   const verlaagMaand = useCallback(() => {
     setJaar(maand === 0 ? jaar - 1 : jaar);

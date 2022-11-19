@@ -1,6 +1,6 @@
-const TRAININGEN = [
+const KAMPEN = [
   {
-    id: "t1",
+    id: "1",
     datum: "2022-11-18",
     dag: "vrijdag",
     trainer: "Jasper Van Dyck",
@@ -9,7 +9,7 @@ const TRAININGEN = [
     notities: null,
   },
   {
-    id: "t2",
+    id: "2",
     datum: "2022-11-16",
     dag: "woensdag",
     trainer: "Paul Corteyn",
@@ -18,7 +18,7 @@ const TRAININGEN = [
     notities: "kan pas vanaf 18:30",
   },
   {
-    id: "t3",
+    id: "3",
     datum: "2022-11-04",
     dag: "vrijdag",
     trainer: "Jolien Corteyn",
@@ -27,7 +27,7 @@ const TRAININGEN = [
     notities: null,
   },
   {
-    id: "t4",
+    id: "4",
     datum: "2022-11-25",
     dag: "vrijdag",
     trainer: "Jasper Van Dyck",
@@ -36,7 +36,7 @@ const TRAININGEN = [
     notities: null,
   },
   {
-    id: "t5",
+    id: "5",
     datum: "2022-11-07",
     dag: "maandag",
     trainer: null,
@@ -46,4 +46,4 @@ const TRAININGEN = [
   },
 ];
 
-export default TRAININGEN;
+export default KAMPEN;
