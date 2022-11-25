@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/website_trainers/static/css/main.b83c46f9.css",
+    "main.css": "/website_trainers/static/css/main.213af97b.css",
     "main.js": "/website_trainers/static/js/main.bd7d4d79.js",
     "index.html": "/website_trainers/index.html",
-    "main.b83c46f9.css.map": "/website_trainers/static/css/main.b83c46f9.css.map",
+    "main.213af97b.css.map": "/website_trainers/static/css/main.213af97b.css.map",
     "main.bd7d4d79.js.map": "/website_trainers/static/js/main.bd7d4d79.js.map"
   },
   "entrypoints": [
-    "static/css/main.b83c46f9.css",
+    "static/css/main.213af97b.css",
     "static/js/main.bd7d4d79.js"
   ]
 }
