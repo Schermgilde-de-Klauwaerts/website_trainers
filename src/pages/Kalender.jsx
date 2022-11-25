@@ -16,6 +16,7 @@ import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
+  const [jaaroverzicht, setJaaroverzicht] = useState(false);
 
   const getEventsByDay = (type, day) => {
     let data = [];
@@ -50,7 +51,29 @@ export default function Kalender() {
   }, [maand, jaar]);
 
   return (
-    <div>
+    <>
+      {/* <div>
+        <button className="border-2 border-black m-4 text-center px-2">
+          {jaaroverzicht ? "maand" : "jaar"}
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2">
+        {MAANDEN.map((m) => (
+          <div className="flex flex-col justify-center">
+            <div className="mx-auto my-2 text-3xl font-bold">{m}</div>
+            <Maand
+              maand={maand}
+              jaar={jaar}
+              dagen={DAGEN}
+              aantalDagenPerMaand={AANTALDAGENPERMAAND}
+              eventsForDay={getEventsByDay}
+              jaaroverzicht
+            />
+          </div>
+        ))}
+      </div> */}
+
       <h1 className="text-3xl text-center font-bold w-48 mx-auto mt-4">
         {jaar}
       </h1>
@@ -65,14 +88,14 @@ export default function Kalender() {
           <AiFillCaretRight />
         </button>
       </div>
-
       <Maand
         maand={maand}
         jaar={jaar}
         dagen={DAGEN}
         aantalDagenPerMaand={AANTALDAGENPERMAAND}
         eventsForDay={getEventsByDay}
+        jaaroverzicht={jaaroverzicht}
       />
-    </div>
+    </>
   );
 }
