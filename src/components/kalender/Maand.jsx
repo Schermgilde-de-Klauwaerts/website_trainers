@@ -9,7 +9,9 @@ export default function Maand({
 }) {
   const calculateFirstDay = () => {
     const date = new Date(jaar, maand, 1);
-    return date.getDay() === 0 ? 0 : date.getDay() - 1;
+    console.log(date);
+    console.log(date.getDay());
+    return date.getDay() === 0 ? 6 : date.getDay() - 1;
   };
 
   return (

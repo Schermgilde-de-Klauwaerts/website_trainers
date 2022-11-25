@@ -12,7 +12,7 @@ function CurrentMonthDay({ datum, eventsForDay }) {
       <div className="text-center border-2 border-black h-36">
         <div className="mb-1">{datum.split("-")[2]}</div>
         <div className="mb-2 border-2 bg-red-600  border-red-600 text-white">
-          <p className="ml-2">{feestdagen[0].naam}</p>
+          <p className="ml-2 font-bold">{feestdagen[0].naam}</p>
         </div>
       </div>
     );
