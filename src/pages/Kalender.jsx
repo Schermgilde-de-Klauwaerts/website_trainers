@@ -9,19 +9,17 @@ import AANTALDAGENPERMAAND from "../api/mocks/mock_aantal_dagen_per_maand";
 import TRAININGEN from "../api/mocks/mock_trainingen";
 import WEDSTRIJDEN from "../api/mocks/mock_wedstrijden";
 import KAMPEN from "../api/mocks/mock_kampen";
+import FEESTDAGEN from "../api/mocks/mock_feestdagen";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
 
 export default function Kalender() {
-  console.log(TRAININGEN);
-
   const [maand, setMaand] = useState(new Date().getMonth());
   const [jaar, setJaar] = useState(new Date().getFullYear());
 
   const getEventsByDay = (type, day) => {
     let data = [];
     if (type === "training") {
-      console.log(TRAININGEN[0]);
       data = TRAININGEN.filter((training) => {
         return day === training.datum;
       });
@@ -33,8 +31,11 @@ export default function Kalender() {
       data = KAMPEN.filter((kamp) => {
         return day === kamp.datum;
       });
+    } else if (type === "feestdag") {
+      data = FEESTDAGEN.filter((feestdag) => {
+        return day === feestdag.datum;
+      });
     }
-    console.log(data);
     return data;
   };
 

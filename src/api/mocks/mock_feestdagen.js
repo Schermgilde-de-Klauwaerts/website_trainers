@@ -1,12 +1,12 @@
 const FEESTDAGEN = [
   {
-    datum: "2018-01-01",
-    naam: "Nieuwjaar",
+    datum: "2022-11-11",
+    naam: "Wapenstilstand",
   },
   {
-    datum: "2018-04-01",
-    naam: "Pasen",
+    datum: "2022-12-25",
+    naam: "Kerstmis",
   },
 ];
 
-export default FEESTDAGEN
+export default FEESTDAGEN;

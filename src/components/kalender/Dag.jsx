@@ -6,6 +6,17 @@ import Training from "./Training";
 function CurrentMonthDay({ datum, eventsForDay }) {
   const trainingen = eventsForDay("training", datum);
   const wedstrijden = eventsForDay("wedstrijd", datum);
+  const feestdagen = eventsForDay("feestdag", datum);
+  if (feestdagen.length > 0) {
+    return (
+      <div className="text-center border-2 border-black h-36">
+        <div className="mb-1">{datum.split("-")[2]}</div>
+        <div className="mb-2 border-2 bg-red-600  border-red-600 text-white">
+          <p className="ml-2">{feestdagen[0].naam}</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="text-center border-2 border-black h-36">
       <div className="mb-1">{datum.split("-")[2]}</div>
