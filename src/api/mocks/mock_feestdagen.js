@@ -19,6 +19,18 @@ const FEESTDAGEN = [
     datum: "2022-12-25",
     naam: "Kerstdag",
   },
+  {
+    datum: "2022-12-25",
+    naam: "Kerstdag",
+  },
+  {
+    datum: "2022-12-31",
+    naam: "Oudjaar",
+  },
+  {
+    datum: "2022-01-01",
+    naam: "Nieuwjaar",
+  },
 ];
 
 export default FEESTDAGEN;

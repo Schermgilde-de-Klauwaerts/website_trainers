@@ -12,6 +12,7 @@ import KAMPEN from "../api/mocks/mock_kampen";
 import FEESTDAGEN from "../api/mocks/mock_feestdagen";
 
 import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai";
+import { HiSwitchHorizontal } from "react-icons/hi";
 
 export default function Kalender() {
   const [maand, setMaand] = useState(new Date().getMonth());
@@ -52,50 +53,55 @@ export default function Kalender() {
 
   return (
     <>
-      {/* <div>
-        <button className="border-2 border-black m-4 text-center px-2">
-          {jaaroverzicht ? "maand" : "jaar"}
+      <div onClick={() => setJaaroverzicht(!jaaroverzicht)}>
+        <button className="flex border-2 border-black ml-16 my-4 text-center px-2">
+          <HiSwitchHorizontal className="text-xl my-auto mr-2" />
+          {jaaroverzicht ? "Jaaroverzicht" : "Maandoverzicht"}
         </button>
       </div>
 
-      <div className="grid grid-cols-2">
-        {MAANDEN.map((m) => (
-          <div className="flex flex-col justify-center">
-            <div className="mx-auto my-2 text-3xl font-bold">{m}</div>
-            <Maand
-              maand={maand}
-              jaar={jaar}
-              dagen={DAGEN}
-              aantalDagenPerMaand={AANTALDAGENPERMAAND}
-              eventsForDay={getEventsByDay}
-              jaaroverzicht
-            />
+      {jaaroverzicht ? (
+        <div className="grid grid-cols-2">
+          {MAANDEN.map((m) => (
+            <div className="flex flex-col justify-center">
+              <div className="mx-auto my-2 text-3xl font-bold">{m}</div>
+              <Maand
+                maand={maand}
+                jaar={jaar}
+                dagen={DAGEN}
+                aantalDagenPerMaand={AANTALDAGENPERMAAND}
+                eventsForDay={getEventsByDay}
+                jaaroverzicht
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>
+          <h1 className="text-3xl text-center font-bold w-48 mx-auto mt-4">
+            {jaar}
+          </h1>
+          <div className="flex flex-row justify-center mb-4">
+            <button className="text-3xl mx-4" onClick={verlaagMaand}>
+              <AiFillCaretLeft />
+            </button>
+            <h1 className="text-3xl text-center font-bold w-48">
+              {MAANDEN[maand]}
+            </h1>
+            <button className="text-3xl mx-4" onClick={verhoogMaand}>
+              <AiFillCaretRight />
+            </button>
           </div>
-        ))}
-      </div> */}
-
-      <h1 className="text-3xl text-center font-bold w-48 mx-auto mt-4">
-        {jaar}
-      </h1>
-      <div className="flex flex-row justify-center mb-4">
-        <button className="text-3xl mx-4" onClick={verlaagMaand}>
-          <AiFillCaretLeft />
-        </button>
-        <h1 className="text-3xl text-center font-bold w-48">
-          {MAANDEN[maand]}
-        </h1>
-        <button className="text-3xl mx-4" onClick={verhoogMaand}>
-          <AiFillCaretRight />
-        </button>
-      </div>
-      <Maand
-        maand={maand}
-        jaar={jaar}
-        dagen={DAGEN}
-        aantalDagenPerMaand={AANTALDAGENPERMAAND}
-        eventsForDay={getEventsByDay}
-        jaaroverzicht={jaaroverzicht}
-      />
+          <Maand
+            maand={maand}
+            jaar={jaar}
+            dagen={DAGEN}
+            aantalDagenPerMaand={AANTALDAGENPERMAAND}
+            eventsForDay={getEventsByDay}
+            jaaroverzicht={jaaroverzicht}
+          />
+        </div>
+      )}
     </>
   );
 }
